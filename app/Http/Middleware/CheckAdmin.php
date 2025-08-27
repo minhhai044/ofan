@@ -15,7 +15,7 @@ class CheckAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        dd(1);
+       
         return $next($request);
     }
 }
