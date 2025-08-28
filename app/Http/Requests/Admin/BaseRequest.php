@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Admin;
 
-use App\Traits\ApiRequestJsonTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
 class BaseRequest extends FormRequest

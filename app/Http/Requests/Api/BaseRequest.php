@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Api;
+
 
 use App\Traits\ApiRequestJsonTrait;
 use Illuminate\Foundation\Http\FormRequest;
