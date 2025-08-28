@@ -19,9 +19,22 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'phone',
         'email',
+        'address',
+        'avatar',
         'password',
+        'code_misa',
+        'gender',
+        'role',
+        'is_active',
+        'fcm_token',
+        'bank_info',
+        'bank_qr',
+        'basic_salary',
+        'birthday',
     ];
+
 
     /**
      * The attributes that should be hidden for serialization.
@@ -43,6 +56,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+
         ];
     }
 }
