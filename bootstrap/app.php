@@ -15,6 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'auth' => \App\Http\Middleware\Authenticate::class,
             'admin' => \App\Http\Middleware\CheckAdmin::class,
+            'check_login' => \App\Http\Middleware\CheckLogin::class,
         ]);
         $middleware->group('web', [
             \App\Http\Middleware\EncryptCookies::class,

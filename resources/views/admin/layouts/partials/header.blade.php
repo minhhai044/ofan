@@ -403,7 +403,7 @@
 
                 <span class="d-none d-xl-inline-block ms-1" key="t-henry">
                     @if (Auth::user())
-                        <span class="fw-bold">{{ Auth::user()->username }}</span>
+                        <span class="fw-bold">{{ Auth::user()->name }}</span>
                     @else
                         <span style="color: red">Không có tên ???</span>
                     @endif
@@ -427,7 +427,7 @@
                         screen</span></a>
                 <div class="dropdown-divider"></div>
 
-                <form action="" method="post">
+                <form action="{{ route('logout') }}" method="post">
                     @csrf
                     <button class="dropdown-item text-danger"><i
                             class="bx bx-power-off font-size-16 align-middle me-1 text-danger"></i> <span

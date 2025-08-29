@@ -108,3 +108,23 @@ if (!function_exists('getImageStorage')) {
         return asset('images/no-image.png');
     }
 }
+
+/**
+ * Tạo mã code misa theo tên và số điện thoại
+ * @param string $name  Tên người dùng
+ * @param string $phone Số điện thoại người dùng
+ * @return string       Trả về mã code misa
+ */
+
+if (!function_exists('codeMisa')) {
+    function codeMisa($name, $phone)
+    {
+        $name = Str::ascii($name);
+
+        // Xoá khoảng trắng, ký tự đặc biệt → chỉ giữ A-Z
+        $name = strtoupper(preg_replace('/[^A-Za-z]/', '', $name));
+
+        // Ghép với số điện thoại
+        return $name . '_' . $phone;
+    }
+}
