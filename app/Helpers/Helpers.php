@@ -105,7 +105,7 @@ if (!function_exists('getImageStorage')) {
         if ($path && Storage::exists($path)) {
             return Storage::url($path);
         }
-        return asset('images/no-image.png');
+        return asset('no-image.png');
     }
 }
 
