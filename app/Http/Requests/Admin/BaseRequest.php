@@ -47,4 +47,15 @@ class BaseRequest extends FormRequest
     {
         return [];
     }
+
+    // Gán tên hiển thị thân thiện
+    public function attributes(): array
+    {
+        return [
+            // 'name'      => 'tên chi nhánh',
+            // 'address'   => 'địa chỉ',
+            // 'branch_id' => 'chi nhánh cha',
+            // 'code_misa' => 'mã MISA',
+        ];
+    }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\BranchController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\ProductCategoryController;
 use App\Http\Controllers\Admin\UserController;
@@ -40,8 +41,24 @@ Route::controller(UserController::class)
     ->middleware(['check_login', 'admin'])
     ->group(function () {
         Route::get('/', 'index')->name('index');
+        Route::get('{users}/', 'show')->name('show');
         Route::get('/create', 'create')->name('create');
         Route::post('/', 'store')->name('store');
-        Route::get('/edit', 'edit')->name('edit');
+        Route::get('{users}/', 'edit')->name('edit');
         Route::put('/', 'update')->name('update');
+    });
+
+
+
+Route::controller(BranchController::class)
+    ->prefix('branches')
+    ->as('branches.')
+    ->middleware(['check_login', 'admin'])
+    ->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/', 'store')->name('store');
+        Route::get('{branches}/', 'edit')->name('edit');
+        Route::put('{branches}/', 'update')->name('update');
+        Route::put('{branches}/updateStatus', 'updateStatus')->name('updateStatus');
     });

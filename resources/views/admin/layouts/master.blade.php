@@ -9,8 +9,9 @@
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
 
-    @include('admin.layouts.partials.css')
+
     @yield('style')
+    @include('admin.layouts.partials.css')
 </head>
 
 <body data-sidebar="dark">
@@ -65,7 +66,8 @@
                 </div>
 
                 <div class="form-check form-switch mb-3">
-                    <input class="form-check-input theme-choice" type="checkbox" id="light-mode-switch" disabled checked>
+                    <input class="form-check-input theme-choice" type="checkbox" id="light-mode-switch" disabled
+                        checked>
                     <label class="form-check-label" for="light-mode-switch">Light Mode</label>
                 </div>
 

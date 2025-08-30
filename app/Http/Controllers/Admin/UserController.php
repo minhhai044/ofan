@@ -17,7 +17,7 @@ class UserController extends Controller
     }
     public function index(Request $request)
     {
-        $users = $this->userService->getAllUsers(1, [], []);
+        $users = $this->userService->getAllUsers(1, $request->all(), []);
         return view('admin.users.index', compact('users'));
     }
 
@@ -26,6 +26,10 @@ class UserController extends Controller
         return view('admin.users.create');
     }
 
+    public function show(string $id)
+    {
+        return view('admin.users.create');
+    }
     public function store(Request $request)
     {
         // Xử lý lưu người dùng

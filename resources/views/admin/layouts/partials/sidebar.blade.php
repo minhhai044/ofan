@@ -85,6 +85,13 @@
                     <li><a href="#" key="t-orders">Nhân viên</a></li>
                 </ul>
             </li>
+
+           <li>
+                <a href="{{ route('branches.index') }}" class="waves-effect">
+                    <i class="bx bx-building-house"></i>
+                    <span key="t-branches">Quản lý chi nhánh</span>
+                </a>
+            </li>
             <li>
                 <a href="chat.html" class="waves-effect">
                     <i class="bx bx-chat"></i>

@@ -2,14 +2,14 @@
 
 namespace App\Services;
 
-use App\Models\User;
+use App\Models\Branch;
 
-class UserService
+class BranchService
 {
-    public function getAllUsers($paginate = 0, $filters = [], $relation = [], $is_active = false, $page = null)
+    public function getAllBranches($filters = [], $relation = [], $is_active = false)
     {
 
-        $query = User::with($relation)->latest('id');
+        $query = Branch::with($relation);
 
         $dateRangeable = ['created_at_start', 'created_at_end'];
 
@@ -37,15 +37,30 @@ class UserService
         }
 
         // Nếu có paginate sẽ thực hiện phân trang
-        if ($paginate > 0) {
-            return $query->paginate($paginate);
+        return $query->get();
+    }
+
+
+    public function storeBranch(array $data)
+    {
+        $data['slug'] = generateSlug($data['name']);
+        return Branch::query()->create($data);
+    }
+
+    public function findBranch(array $relation = [], string $id = '', string $slug = '')
+    {
+        $query = Branch::with($relation);
+        if (!empty($id)) {
+            return $query->find($id);
+        } elseif (!empty($slug)) {
+            return $query->where('slug', $slug)->first();
         } else {
-            if (is_null($page)) {
-                return $query->get();
-            }
-            $limit = 20;
-            $offset = $page * $limit;
-            return $query->offset($offset)->limit($limit)->get();
+            return false;
         }
+    }
+
+    public function updateBranch(array $data, string $id)
+    {
+        return Branch::query()->find($id)->update($data);
     }
 }
