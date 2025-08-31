@@ -30,7 +30,7 @@ class AuthController extends Controller
     {
         try {
             $this->AuthService->register($request->validated());
-            return redirect()->route('home');
+            return redirect()->route('home')->with('success', 'Thao tác thành công !!!');
         } catch (\Throwable $th) {
             Log::error('Lỗi đăng ký: ' . $th->getMessage());
             return redirect()->back()->with('error', 'Đăng ký không thành công');
@@ -38,12 +38,38 @@ class AuthController extends Controller
     }
     public function login(LoginRequest $request)
     {
+        // try {
+        //     $this->AuthService->login($request->validated());
+        //     return redirect()->route('home')->with('success','Thao tác thành công !!!');
+        // } catch (\Throwable $th) {
+        //     Log::error('Lỗi đăng nhập: ' . $th->getMessage());
+        //     return back()->with('error', 'Đăng nhập không thành công');
+        // }
+
+
+
         try {
-            $this->AuthService->login($request->validated());
-            return redirect()->route('home');
+            $payload = $request->validated() + [
+                'remember' => $request->boolean('remember'),
+            ];
+
+            $ok = $this->AuthService->login($payload);
+
+            if ($ok) {
+                $request->session()->regenerate();
+
+                return redirect()->intended(route('home'))
+                    ->with('success', 'Đăng nhập thành công!');
+            }
+
+            return back()
+                ->withErrors(['phone' => 'Thông tin đăng nhập không đúng hoặc tài khoản bị khóa.'])
+                ->withInput($request->except('password'));
         } catch (\Throwable $th) {
             Log::error('Lỗi đăng nhập: ' . $th->getMessage());
-            return redirect()->back()->with('error', 'Đăng nhập không thành công');
+
+            return back()
+                ->with('error', 'Đăng nhập không thành công. Vui lòng thử lại.');
         }
     }
     public function logout(Request $request)

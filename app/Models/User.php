@@ -34,6 +34,7 @@ class User extends Authenticatable
         'bank_qr',
         'basic_salary',
         'birthday',
+        'slug'
     ];
 
 

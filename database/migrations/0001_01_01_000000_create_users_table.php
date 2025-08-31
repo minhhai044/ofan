@@ -28,6 +28,7 @@ return new class extends Migration
             $table->foreignIdFor(Branch::class)->nullable()->constrained();
             $table->string('name');
             $table->string('phone')->unique();
+            $table->string('slug')->unique();
             $table->string('email')->nullable();
             $table->string('address')->nullable();
             $table->string('avatar')->nullable();

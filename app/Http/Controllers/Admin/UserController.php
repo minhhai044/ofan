@@ -23,12 +23,14 @@ class UserController extends Controller
 
     public function create()
     {
+       
+
         return view('admin.users.create');
     }
 
     public function show(string $id)
     {
-        return view('admin.users.create');
+        // return view('admin.users.create');
     }
     public function store(Request $request)
     {

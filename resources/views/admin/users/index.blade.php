@@ -15,47 +15,59 @@
             </div>
         </div>
     </div>
-    <form method="GET" class="row g-2 align-items-end mb-3">
-        {{-- Từ khóa tên --}}
-        <div class="col-sm-4 col-md-3">
-            {{-- <label class="form-label mb-1">Họ và tên</label> --}}
-            <div class="input-group">
-                <span class="input-group-text"><i class="fas fa-user"></i></span>
-                <input type="text" name="name" value="{{ request('name') }}" class="form-control"
-                    placeholder="Họ và tên" autocomplete="off">
-            </div>
-        </div>
 
-        {{-- SĐT --}}
-        <div class="col-sm-4 col-md-3">
-            {{-- <label class="form-label mb-1">Số điện thoại</label> --}}
-            <div class="input-group">
-                <span class="input-group-text"><i class="fas fa-phone-alt"></i></span>
-                <input type="text" name="phone" value="{{ request('phone') }}" class="form-control"
-                    placeholder="Số điện thoại" inputmode="numeric" pattern="[0-9]{8,12}" autocomplete="off">
-            </div>
-        </div>
+    <div class="row">
+        <div class="col-12">
+            <form method="GET" class="row g-2 align-items-end mb-2">
+                <div class="col-sm-3 col-md-2">
+                    {{-- <label class="form-label mb-1">Họ và tên</label> --}}
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        <input type="text" name="name" value="{{ request('name') }}" class="form-control"
+                            placeholder="Họ và tên" autocomplete="off">
+                    </div>
+                </div>
 
-        {{-- Trạng thái --}}
-        <div class="col-sm-4 col-md-3">
-            {{-- <label class="form-label mb-1">Trạng thái</label> --}}
-            <select name="is_active" class="form-select" onchange="this.form.submit()">
-                <option value="" {{ request('is_active', '') === '' ? 'selected' : '' }}>Tất cả</option>
-                <option value="1" {{ request('is_active') === '1' ? 'selected' : '' }}>Hoạt động</option>
-                <option value="0" {{ request('is_active') === '0' ? 'selected' : '' }}>Ngừng hoạt động</option>
-            </select>
-        </div>
+                {{-- SĐT --}}
+                <div class="col-sm-3 col-md-2">
+                    {{-- <label class="form-label mb-1">Số điện thoại</label> --}}
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-text"><i class="fas fa-phone-alt"></i></span>
+                        <input type="text" name="phone" value="{{ request('phone') }}" class="form-control"
+                            placeholder="Số điện thoại" inputmode="numeric" pattern="[0-9]{8,12}" autocomplete="off">
+                    </div>
+                </div>
 
-        {{-- Nút --}}
-        <div class="col-md-3 d-flex gap-2">
-            <button class="btn btn-primary flex-grow-1" type="submit">
-                <i class="fas fa-filter"></i>
-            </button>
-            <a href="{{ url()->current() }}" class="btn btn-outline-secondary">
-                <i class="fas fa-undo"></i>
-            </a>
+                {{-- Trạng thái --}}
+                <div class="col-sm-3 col-md-2">
+                    {{-- <label class="form-label mb-1">Trạng thái</label> --}}
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-text"><i class="fas fa-align-justify"></i></span>
+                        <select name="is_active" class="form-select" onchange="this.form.submit()">
+                            <option value="" {{ request('is_active', '') === '' ? 'selected' : '' }}>Tất cả</option>
+                            <option value="1" {{ request('is_active') === '1' ? 'selected' : '' }}>Hoạt động</option>
+                            <option value="0" {{ request('is_active') === '0' ? 'selected' : '' }}>Ngừng hoạt động
+                            </option>
+                        </select>
+                    </div>
+
+                </div>
+
+                {{-- Nút --}}
+                <div class="col-sm-3 col-md-2 d-flex gap-1">
+                    <button class="btn btn-primary btn-sm" type="submit">
+                        <i class="fas fa-filter"></i>
+                    </button>
+                    <a href="{{ url()->current() }}" class="btn btn-outline-secondary btn-sm">
+                        <i class="fas fa-undo"></i>
+                    </a>
+                </div>
+
+            </form>
         </div>
-    </form>
+    </div>
+
+
 
 
 

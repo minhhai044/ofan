@@ -41,7 +41,7 @@ Route::controller(UserController::class)
     ->middleware(['check_login', 'admin'])
     ->group(function () {
         Route::get('/', 'index')->name('index');
-        Route::get('{users}/', 'show')->name('show');
+        
         Route::get('/create', 'create')->name('create');
         Route::post('/', 'store')->name('store');
         Route::get('{users}/', 'edit')->name('edit');

@@ -188,7 +188,7 @@
                 {{-- Trạng thái --}}
                 <div class="col-sm-3 col-md-2">
                     <div class="input-group input-group-sm">
-                        <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                        <span class="input-group-text"><i class="fas fa-align-justify"></i></span>
                         <select name="is_active" class="form-select form-select-sm" onchange="this.form.submit()">
                             <option value="" {{ request('is_active', '') === '' ? 'selected' : '' }}>Tất cả</option>
                             <option value="1" {{ request('is_active') === '1' ? 'selected' : '' }}>Hoạt động</option>
