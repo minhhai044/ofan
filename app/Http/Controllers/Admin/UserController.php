@@ -3,48 +3,77 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\UserRequest;
+use App\Services\BranchService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
 
     protected $userService;
+    protected $branchService;
 
-    public function __construct(UserService $userService)
+    public function __construct(UserService $userService, BranchService $branchService)
     {
         $this->userService = $userService;
+        $this->branchService = $branchService;
     }
     public function index(Request $request)
     {
-        $users = $this->userService->getAllUsers(1, $request->all(), []);
+        $users = $this->userService->getAllUsers(20, $request->all(), []);
         return view('admin.users.index', compact('users'));
     }
 
     public function create()
     {
-       
 
-        return view('admin.users.create');
+        $branches = $this->branchService->getAllBranches([], [], true);
+        return view('admin.users.create', compact('branches'));
     }
 
-    public function show(string $id)
+
+    public function store(UserRequest $request)
     {
-        // return view('admin.users.create');
-    }
-    public function store(Request $request)
-    {
-        // Xử lý lưu người dùng
+        try {
+            $this->userService->storeUsers($request->validated());
+            return redirect()->route('users.index')->with('success', 'Thao tác thành công !!!');
+        } catch (\Throwable $th) {
+            Log::error(__CLASS__ . '@' . __FUNCTION__, [$th->getMessage()]);
+            return back()->with('error', 'Thao tác không thành công !!!');
+        }
     }
 
-    public function edit(Request $request)
+    public function edit(string $slug)
     {
-        // Lấy thông tin người dùng cần chỉnh sửa
-        return view('admin.users.edit');
+        $user = $this->userService->findUser([], '', $slug);
+        $branches = $this->branchService->getAllBranches([], [], true);
+
+        return view('admin.users.edit', compact('user', 'branches'));
     }
 
-    public function update(Request $request)
+    public function update(UserRequest $request, string $id)
     {
-        // Xử lý cập nhật người dùng
+        try {
+
+            $this->userService->updateUser($request->validated(), $id);
+            return redirect()->route('users.index')->with('success', 'Thao tác thành công !!!');
+        } catch (\Throwable $th) {
+            Log::error(__CLASS__ . '@' . __FUNCTION__, [$th->getMessage()]);
+            return back()->with('error', 'Thao tác không thành công !!!');
+        }
+    }
+
+    public function updateStatus(Request $request, string $id)
+    {
+        try {
+
+            $this->userService->updateUser($request->all(), $id);
+            return redirect()->route('users.index')->with('success', 'Thao tác thành công !!!');
+        } catch (\Throwable $th) {
+            Log::error(__CLASS__ . '@' . __FUNCTION__, [$th->getMessage()]);
+            return back()->with('error', 'Thao tác không thành công !!!');
+        }
     }
 }

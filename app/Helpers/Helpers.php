@@ -85,8 +85,8 @@ if (!function_exists('createImageStorage')) {
 if (!function_exists('deleteImageStorage')) {
     function deleteImageStorage($path)
     {
-        if (Storage::exists($path)) {
-            return Storage::delete($path);
+        if ($path && Storage::exists($path)) {
+            Storage::delete($path);
         }
         return true;
     }

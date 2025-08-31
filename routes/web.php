@@ -45,7 +45,9 @@ Route::controller(UserController::class)
         Route::get('/create', 'create')->name('create');
         Route::post('/', 'store')->name('store');
         Route::get('{users}/', 'edit')->name('edit');
-        Route::put('/', 'update')->name('update');
+        Route::put('{users}/', 'update')->name('update');
+        Route::put('{users}/updateStatus', 'updateStatus')->name('updateStatus');
+        
     });
 
 

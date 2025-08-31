@@ -1,4 +1,7 @@
 @extends('admin.layouts.master')
+@section('style')
+    <link href="{{ asset('theme/admin/assets/libs/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
+@endsection
 
 @section('content')
     <div class="row">
@@ -38,41 +41,57 @@
                                 @enderror
                             </div>
 
-                            {{-- Điện thoại --}}
+                            {{-- Điện thoại (đúng 10 chữ số) --}}
                             <div class="col-md-6">
                                 <label class="form-label fw-bold">Số điện thoại <span class="text-danger">*</span></label>
                                 <input type="tel" id="phone" name="phone"
                                     class="form-control @error('phone') is-invalid @enderror" placeholder="VD: 0987654321"
-                                    value="{{ old('phone') }}" required pattern="[0-9+\-\s]{8,20}" maxlength="20">
+                                    value="{{ old('phone') }}" required pattern="^\d{10}$" maxlength="10"
+                                    title="Số điện thoại phải gồm đúng 10 chữ số.">
                                 @error('phone')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @else
-                                    <div class="invalid-feedback">SĐT 8–20 ký tự, chỉ gồm số/khoảng trắng/+/-.</div>
+                                    <div class="invalid-feedback">Số điện thoại phải gồm đúng 10 chữ số.</div>
                                 @enderror
                             </div>
 
-                            {{-- Email --}}
+                            {{-- Mật khẩu --}}
                             <div class="col-md-6">
-                                <label class="form-label fw-bold">Email</label>
-                                <input type="email" name="email"
-                                    class="form-control @error('email') is-invalid @enderror" placeholder="VD: a@gmail.com"
-                                    value="{{ old('email') }}" maxlength="255">
-                                @error('email')
+                                <label class="form-label fw-bold">Mật khẩu <span class="text-danger">*</span></label>
+                                <input type="password" name="password"
+                                    class="form-control @error('password') is-invalid @enderror" placeholder="Mật khẩu"
+                                    required minlength="6">
+                                @error('password')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @else
-                                    <div class="invalid-feedback">Định dạng email không hợp lệ.</div>
+                                    <div class="invalid-feedback">Vui lòng nhập mật khẩu (≥ 6 ký tự).</div>
                                 @enderror
+                            </div>
+
+                            {{-- Nhập lại mật khẩu (lỗi confirmed nằm ở key password) --}}
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Nhập lại mật khẩu <span
+                                        class="text-danger">*</span></label>
+                                <input type="password" name="password_confirmation"
+                                    class="form-control @error('password') is-invalid @enderror"
+                                    placeholder="Nhập lại mật khẩu" required minlength="6">
+                                @if ($errors->has('password'))
+                                    <div class="invalid-feedback">{{ $errors->first('password') }}</div>
+                                @else
+                                    <div class="invalid-feedback">Vui lòng nhập lại mật khẩu khớp với mật khẩu.</div>
+                                @endif
                             </div>
 
                             {{-- Chi nhánh --}}
                             <div class="col-md-6">
                                 <label class="form-label fw-bold">Thuộc chi nhánh</label>
                                 <select name="branch_id" id="branch_id"
-                                    class="form-select @error('branch_id') is-invalid @enderror"
-                                    data-placeholder="— Không thuộc chi nhánh —">
-                                    <option value="">— Không thuộc chi nhánh —</option>
+                                    class="form-select select2 @error('branch_id') is-invalid @enderror"
+                                    data-placeholder="Không thuộc chi nhánh">
+                                    <option value="">Không thuộc chi nhánh</option>
                                     @foreach ($branches ?? [] as $b)
-                                        <option value="{{ $b->id }}" @selected(old('branch_id') == $b->id)>{{ $b->name }}
+                                        <option value="{{ $b->id }}" @selected(old('branch_id') == $b->id)>
+                                            {{ $b->name }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -81,6 +100,22 @@
                                 @else
                                     <div class="invalid-feedback">Giá trị không hợp lệ.</div>
                                 @enderror
+                            </div>
+
+                            {{-- Mã MISA (TEN_VIETLIEN_SDT) --}}
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Mã MISA <span class="text-danger">*</span></label>
+                                <input type="text" id="code_misa" name="code_misa"
+                                    class="form-control @error('code_misa') is-invalid @enderror"
+                                    placeholder="VD: TRANMINHHAI_0338997846" value="{{ old('code_misa') }}"
+                                    pattern="^[A-Z0-9_]{2,30}$" maxlength="30" required
+                                    title="Chỉ chữ IN HOA, số và dấu gạch dưới (_), 2–30 ký tự">
+                                @error('code_misa')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @else
+                                    <div class="invalid-feedback">Chỉ chữ IN HOA, số và dấu gạch dưới (_), 2–30 ký tự.</div>
+                                @enderror
+                                <div class="form-text">Tự sinh từ Họ tên (bỏ dấu, viết liền, IN HOA) + “_” + SĐT.</div>
                             </div>
 
                             {{-- Địa chỉ --}}
@@ -96,31 +131,16 @@
                                 @enderror
                             </div>
 
-                            {{-- Mã MISA --}}
+                            {{-- Email --}}
                             <div class="col-md-6">
-                                <label class="form-label fw-bold">Mã MISA <span class="text-danger">*</span></label>
-                                <input type="text" id="code_misa" name="code_misa"
-                                    class="form-control @error('code_misa') is-invalid @enderror"
-                                    placeholder="Tự sinh từ Họ tên + SĐT (bỏ dấu, viết liền, IN HOA)"
-                                    value="{{ old('code_misa') }}" pattern="[A-Z0-9]{2,30}" maxlength="30" required
-                                    title="Chỉ chữ IN HOA và số, không khoảng trắng, 2–30 ký tự">
-                                @error('code_misa')
+                                <label class="form-label fw-bold">Email</label>
+                                <input type="email" name="email"
+                                    class="form-control @error('email') is-invalid @enderror"
+                                    placeholder="VD: a@gmail.com" value="{{ old('email') }}" maxlength="255">
+                                @error('email')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @else
-                                    <div class="invalid-feedback">Chỉ chữ IN HOA & số (2–30 ký tự), không khoảng trắng.</div>
-                                @enderror
-                                <div class="form-text">Ví dụ: NGUYENVANA0987654321</div>
-                            </div>
-
-                            {{-- Lương cơ bản --}}
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold">Lương cơ bản</label>
-                                <input type="number" name="basic_salary"
-                                    class="form-control @error('basic_salary') is-invalid @enderror"
-                                    placeholder="VD: 8000000" value="{{ old('basic_salary', 0) }}" min="0"
-                                    step="1">
-                                @error('basic_salary')
-                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    <div class="invalid-feedback">Định dạng email không hợp lệ.</div>
                                 @enderror
                             </div>
 
@@ -132,22 +152,17 @@
                                     value="{{ old('birthday') }}">
                                 @error('birthday')
                                     <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            {{-- Mật khẩu --}}
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold">Mật khẩu <span class="text-danger">*</span></label>
-                                <input type="password" name="password"
-                                    class="form-control @error('password') is-invalid @enderror" placeholder="••••••"
-                                    required minlength="6">
-                                @error('password')
-                                    <div class="invalid-feedback">{{ $message }}</div>
                                 @else
-                                    <div class="invalid-feedback">Vui lòng nhập mật khẩu (≥ 6 ký tự).</div>
+                                    <div class="invalid-feedback">Ngày sinh không hợp lệ.</div>
                                 @enderror
                             </div>
                         </div>
+                    </div>
+
+                    {{-- Nút hành động --}}
+                    <div class="d-flex gap-2 px-3 pb-3">
+                        <a href="{{ route('users.index') }}" class="btn btn-light w-50">Hủy</a>
+                        <button type="submit" class="btn btn-primary w-50">Tạo mới</button>
                     </div>
                 </div>
             </div>
@@ -166,16 +181,32 @@
                                     value="{{ old('bank_info') }}">
                                 @error('bank_info')
                                     <div class="invalid-feedback">{{ $message }}</div>
+                                @else
+                                    <div class="invalid-feedback">Thông tin ngân hàng không hợp lệ.</div>
                                 @enderror
                             </div>
 
-                            {{-- Ảnh ngân hàng (QR) --}}
+                            {{-- Lương cơ bản --}}
+                            <div class="col-12">
+                                <label class="form-label fw-bold">Lương cơ bản</label>
+                                <input type="text" id="basic_salary" name="basic_salary"
+                                    class="form-control @error('basic_salary') is-invalid @enderror"
+                                    placeholder="VD: 8.000.000" value="{{ old('basic_salary', 0) }}">
+                                @error('basic_salary')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @else
+                                    <div class="invalid-feedback">Lương cơ bản không hợp lệ.</div>
+                                @enderror
+                            </div>
+                            {{-- Ảnh QR ngân hàng --}}
                             <div class="col-12">
                                 <label class="form-label fw-bold">Ảnh QR ngân hàng</label>
                                 <input type="file" id="bank_qr" name="bank_qr" accept="image/*"
                                     class="form-control @error('bank_qr') is-invalid @enderror">
                                 @error('bank_qr')
                                     <div class="invalid-feedback">{{ $message }}</div>
+                                @else
+                                    <div class="invalid-feedback">Vui lòng chọn ảnh hợp lệ (jpg, jpeg, png, webp; ≤ 4MB).</div>
                                 @enderror
                                 <div class="mt-2">
                                     <img id="bankQrPreview" src="#" alt=""
@@ -183,13 +214,15 @@
                                 </div>
                             </div>
 
-                            {{-- Ảnh đại diện --}}
+                            {{-- Avatar --}}
                             <div class="col-12">
                                 <label class="form-label fw-bold">Avatar</label>
                                 <input type="file" id="avatar" name="avatar" accept="image/*"
                                     class="form-control @error('avatar') is-invalid @enderror">
                                 @error('avatar')
                                     <div class="invalid-feedback">{{ $message }}</div>
+                                @else
+                                    <div class="invalid-feedback">Vui lòng chọn ảnh hợp lệ (jpg, jpeg, png, webp; ≤ 4MB).</div>
                                 @enderror
                                 <div class="mt-2">
                                     <img id="avatarPreview" src="#" alt=""
@@ -219,28 +252,17 @@
                         </div>
                     </div>
                 </div>
-
-                {{-- Nút hành động --}}
-                <div class="d-flex gap-2">
-                    <a href="{{ route('users.index') }}" class="btn btn-light w-50">Hủy</a>
-                    <button type="submit" class="btn btn-primary w-50">Tạo mới</button>
-                </div>
-            </div>
+            </div> {{-- end col-4 --}}
         </div>
     </form>
 @endsection
 
 @section('script')
+    <script src="{{ asset('theme/admin/assets/libs/select2/js/select2.min.js') }}"></script>
+    <script src="{{ asset('theme/admin/assets/js/pages/form-advanced.init.js') }}"></script>
+    <script src=" {{ asset('theme/admin/assets/js/pages/validation.init.js') }} "></script>
     <script>
         $(function() {
-            // ===== Select2 (nếu dự án đã include plugin) =====
-            if ($.fn.select2) {
-                $('#branch_id').select2({
-                    placeholder: $('#branch_id').data('placeholder') || '— Không thuộc chi nhánh —',
-                    allowClear: true,
-                    width: '100%'
-                });
-            }
 
             // ===== Preview ảnh =====
             function previewImg(input, target) {
@@ -255,12 +277,14 @@
                 };
                 reader.readAsDataURL(file);
             }
+
             $('#avatar').on('change', function() {
                 previewImg(this, '#avatarPreview');
             });
             $('#bank_qr').on('change', function() {
                 previewImg(this, '#bankQrPreview');
             });
+
 
             // ===== Auto-generate code_misa từ name + phone (viết liền + IN HOA) =====
             let codeTouched = false;
@@ -300,6 +324,29 @@
                     $(this).find(':invalid').first().focus();
                     return;
                 }
+            });
+        });
+    </script>
+    <script>
+        $(function() {
+            const fmtVN = new Intl.NumberFormat('vi-VN');
+
+            // Khởi tạo: format sẵn nếu có old value
+            (function initSalary() {
+                const raw = ($('#basic_salary').val() || '').toString().replace(/\D/g, '');
+                $('#basic_salary').val(raw ? fmtVN.format(raw) : '');
+            })();
+
+            // Gõ tới đâu format tới đó (thêm dấu chấm)
+            $(document).on('input', '#basic_salary', function() {
+                const raw = this.value.replace(/\D/g, '');
+                this.value = raw ? fmtVN.format(raw) : '';
+            });
+
+            // Trước khi submit: bỏ dấu chấm để gửi số “sạch”
+            $('form.needs-validation').on('submit', function() {
+                const $inp = $('#basic_salary', this);
+                $inp.val(($inp.val() || '').replace(/\D/g, '')); // chỉ còn số
             });
         });
     </script>

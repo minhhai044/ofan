@@ -1,5 +1,22 @@
 @extends('admin.layouts.master')
 @section('style')
+    <style>
+        .avatar-img {
+            width: 80%;
+            /* ảnh chiếm 80% chiều rộng ô td */
+            max-width: 80px;
+
+            height: 80%;
+            /* ảnh chiếm 80% chiều rộng ô td */
+            max-height: 80px;
+
+            /* tự co chiều cao giữ tỉ lệ */
+            object-fit: cover;
+            /* cắt ảnh vừa khung */
+            /* border-radius: 50%; */
+            /* nếu muốn tròn */
+        }
+    </style>
 @endsection
 @section('content')
     <div class="row">
@@ -75,7 +92,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <table id="datatable" class="table table-bordered text-center dt-responsive  nowrap w-100">
+                    <table class="table table-bordered text-center dt-responsive  nowrap w-100">
                         <thead class="text-center">
                             <tr>
                                 <th class="text-center">STT</th>
@@ -93,7 +110,8 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $user->name }}</td>
-                                        <td><img src="{{ getImageStorage($user->avatar) }}" width="50%" alt="">
+                                        <td><a target="_blank" href="{{ getImageStorage($user->avatar) }}"><img class="avatar-img" src="{{ getImageStorage($user->avatar) }}"
+                                                alt=""></a>
                                         </td>
                                         <td>{{ $user->phone }}</td>
                                         <td>{{ $user->address }}</td>
@@ -107,15 +125,22 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <a href="{{ route('users.edit', $user->id) }}"
-                                                class="btn btn-warning btn-sm">Sửa</a>
-                                            {{-- <form action="{{ route('users.destroy', $user->id) }}" method="POST"
-                                            style="display: inline-block">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm"
-                                                onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</button>
-                                        </form> --}}
+                                            <a href="{{ route('users.edit', $user->slug) }}"
+                                                class="btn btn-warning btn-sm"><i class="bx bxs-edit"></i></a>
+                                            <form action="{{ route('users.updateStatus', $user->id) }}" method="POST"
+                                                style="display: inline-block">
+                                                @csrf
+                                                @method('PUT')
+                                                @if ($user->is_active)
+                                                    <input type="text" hidden name="is_active" value="0">
+                                                    <button type="submit" class="btn btn-danger btn-sm"><i
+                                                            class="bx bx-trash"></i></button>
+                                                @else
+                                                    <input type="text" hidden name="is_active" value="1">
+                                                    <button type="submit" class="btn btn-success btn-sm"><i
+                                                            class="bx bx-rotate-right"></i></button>
+                                                @endif
+                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach
