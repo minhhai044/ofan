@@ -82,6 +82,7 @@
                 <ul class="sub-menu" aria-expanded="false">
                     <li><a href="{{ route('users.index') }}" key="t-products">Người dùng</a></li>
                     <li><a href="{{ route('users.indexStaff') }}" key="t-orders">Nhân viên</a></li>
+                    <li><a href="{{ route('permissions.index') }}" key="t-permistions">Phân quyền</a></li>
                 </ul>
             </li>
 

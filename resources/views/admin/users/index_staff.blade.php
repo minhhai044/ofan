@@ -27,7 +27,7 @@
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0 font-size-18">Danh sách người dùng</h4>
+                <h4 class="mb-sm-0 font-size-18">Danh sách nhân viên</h4>
 
                 <div class="page-title-right">
                     <a href="{{ route('users.create') }} "><button class="btn btn-primary btn-sm float-end mb-2 me-3">Thêm
@@ -119,6 +119,7 @@
                                 <th class="text-center">Avatar</th>
                                 <th class="text-center">Số điện thoại</th>
                                 <th class="text-center">Địa chỉ</th>
+                                <th class="text-center">Chi nhánh</th>
                                 <th class="text-center">Trạng thái</th>
                                 <th class="text-center">Thao tác</th>
                             </tr>
@@ -135,6 +136,9 @@
                                         </td>
                                         <td>{{ $user->phone }}</td>
                                         <td>{{ $user->address }}</td>
+                                        <td>
+                                            <span class="badge badge-pill badge-soft-success font-size-11">{{ $user->branch->name ?? 'Không tìm thấy !!!' }}</span>
+                                        </td>
                                         <td>
                                             @if ($user->is_active == 1)
                                                 <span class="badge badge-pill badge-soft-success font-size-11">Kích
@@ -166,7 +170,7 @@
                                 @endforeach
                             @else
                                 <tr>
-                                    <td colspan="7">Người dùng không tồn tại</td>
+                                    <td colspan="8">Người dùng không tồn tại</td>
                                 </tr>
                             @endif
 

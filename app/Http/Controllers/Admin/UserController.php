@@ -31,7 +31,7 @@ class UserController extends Controller
         $filters['role'] = 1;
         $branches = $this->branchService->getAllBranches([], [], true);
 
-        $users = $this->userService->getAllUsers(20, $filters, []);
+        $users = $this->userService->getAllUsers(20, $filters, ['branch']);
         return view('admin.users.index_staff', compact('users','branches'));
     }
 
