@@ -129,13 +129,13 @@
                 let name = $(this).val();
 
                 // loại bỏ ký tự đặc biệt, dấu tiếng Việt, khoảng trắng
-                let code = name
-                    .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // bỏ dấu tiếng Việt
-                    .replace(/[^a-zA-Z0-9\s]/g, '') // bỏ ký tự đặc biệt
-                    .replace(/\s+/g, '') // bỏ khoảng trắng
-                    .toUpperCase(); // in hoa
+                const toCode = s => (s || '')
+                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+                    .replace(/[đĐ]/g, 'd') // sau đó .toUpperCase() sẽ thành D
+                    .replace(/[^0-9A-Za-z]+/g, '')
+                    .toUpperCase();
 
-                $('#code_misa').val(code);
+                $('#code_misa').val(toCode(name));
             });
         });
     </script>

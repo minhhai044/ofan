@@ -127,32 +127,26 @@
 
     <script>
         $(function() {
-
-
-            // 2) Auto-generate code_misa từ name (viết liền + IN HOA) — chỉ khi user CHƯA tự sửa code_misa
             var codeTouched = false;
             $('#code_misa').on('input', function() {
                 codeTouched = true;
             });
 
-            function genMisaFromName(name) {
-                var code = (name || '')
-                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // bỏ dấu
-                    .replace(/[^a-zA-Z0-9\s]/g, '') // bỏ ký tự đặc biệt
-                    .replace(/\s+/g, '') // bỏ khoảng trắng
-                    .toUpperCase(); // IN HOA
-                return code;
-            }
+            const toCode = s => (s || '')
+                .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+                .replace(/[đĐ]/g, 'd') 
+                .replace(/[^0-9A-Za-z]+/g, '')
+                .toUpperCase();
 
-            // sinh 1 lần khi tải nếu code trống
+
             if (!$('#code_misa').val()) {
-                var initCode = genMisaFromName($('#key_name').val());
+                var initCode = toCode($('#key_name').val());
                 $('#code_misa').val(initCode);
             }
 
             $('#key_name').on('input', function() {
-                if (codeTouched) return; // người dùng đã sửa -> không ghi đè nữa
-                $('#code_misa').val(genMisaFromName($(this).val()));
+                if (codeTouched) return;
+                $('#code_misa').val(toCode($(this).val()));
             });
 
 
