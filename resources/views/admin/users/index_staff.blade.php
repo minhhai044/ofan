@@ -59,7 +59,21 @@
                             placeholder="Số điện thoại" inputmode="numeric" pattern="[0-9]{8,12}" autocomplete="off">
                     </div>
                 </div>
+                {{-- Branchs --}}
+                <div class="col-sm-3 col-md-2">
 
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-text"><i class="fas fa-building"></i></span>
+                        <select name="branch_id" class="form-select" onchange="this.form.submit()">
+                            <option value="" {{ request('branch_id', '') === '' ? 'selected' : '' }}>Tất cả</option>
+                            @foreach ($branches as $branch)
+                                <option @selected($branch->id == request('branch_id', '') ) value="{{ $branch->id }}">{{ $branch->name }}</option>
+                            @endforeach
+
+                        </select>
+                    </div>
+
+                </div>
                 {{-- Trạng thái --}}
                 <div class="col-sm-3 col-md-2">
                     {{-- <label class="form-label mb-1">Trạng thái</label> --}}
@@ -115,8 +129,9 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $user->name }}</td>
-                                        <td><a target="_blank" href="{{ getImageStorage($user->avatar) }}"><img class="avatar-img" src="{{ getImageStorage($user->avatar) }}"
-                                                alt=""></a>
+                                        <td><a target="_blank" href="{{ getImageStorage($user->avatar) }}"><img
+                                                    class="avatar-img" src="{{ getImageStorage($user->avatar) }}"
+                                                    alt=""></a>
                                         </td>
                                         <td>{{ $user->phone }}</td>
                                         <td>{{ $user->address }}</td>

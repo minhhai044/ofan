@@ -109,38 +109,71 @@
                         </td>';
                 $html .= '  <td>' . $item['address'] . '</td>';
                 $html .= '  <td class="text-center">' . $badge . '</td>';
-                $html .=
-                    '  <td class="text-center" style="width:170px">
-        <div class="btn-group" role="group">
-            <a href="' .
-                    route('branches.edit', $item['slug']) .
-                    '" class="btn btn-outline-primary btn-action" title="Sửa">
-                <i class="bx bx-edit"></i>
-            </a>
+                //             $html .=
+                //                 '  <td >
 
-            <form action="' .
+        //         <a href="' .
+                //                 route('branches.edit', $item['slug']) .
+                //                 '" class="btn btn-warning btn-action" title="Sửa">
+        //             <i class="bx bx-edit"></i>
+        //         </a>
+
+        //         <form action="' .
+                //                 route('branches.updateStatus', $item['id']) .
+                //                 '" method="POST" >
+        //             ' .
+                //                 csrf_field() .
+                //                 method_field('PUT') .
+                //                 '
+        //             <input type="hidden" name="is_active" value="' .
+                //                 ($item['is_active'] ? 0 : 1) .
+                //                 '">
+        //             <button type="submit" class="btn ' .
+                //                 ($item['is_active'] ? 'btn-danger' : 'btn-success') .
+                //                 ' btn-action"
+        //                     title="' .
+                //                 ($item['is_active'] ? 'Ngừng hoạt động' : 'Kích hoạt lại') .
+                //                 '">
+        //                 <i class="bx ' .
+                //                 ($item['is_active'] ? 'bx-trash' : 'bx-check') .
+                //                 '"></i>
+        //             </button>
+        //         </form>
+
+        // </td>';
+                $html .=
+                    '  <td class="text-center action-cell">
+    <div class="d-inline-flex align-items-center gap-1">
+        <a href="' .
+                    route('branches.edit', $item['slug']) .
+                    '" class="btn btn-warning btn-action" title="Sửa">
+            <i class="bx bx-edit"></i>
+        </a>
+
+        <form action="' .
                     route('branches.updateStatus', $item['id']) .
-                    '" method="POST" >
-                ' .
+                    '" method="POST" class="m-0 p-0 d-inline-block">
+            ' .
                     csrf_field() .
                     method_field('PUT') .
                     '
-                <input type="hidden" name="is_active" value="' .
+            <input type="hidden" name="is_active" value="' .
                     ($item['is_active'] ? 0 : 1) .
                     '">
-                <button type="submit" class="btn ' .
-                    ($item['is_active'] ? 'btn-outline-danger' : 'btn-outline-success') .
-                    ' btn-action" 
-                        title="' .
+            <button type="submit"
+                class="btn ' .
+                    ($item['is_active'] ? 'btn-danger' : 'btn-success') .
+                    ' btn-action"
+                title="' .
                     ($item['is_active'] ? 'Ngừng hoạt động' : 'Kích hoạt lại') .
                     '">
-                    <i class="bx ' .
+                <i class="bx ' .
                     ($item['is_active'] ? 'bx-trash' : 'bx-check') .
                     '"></i>
-                </button>
-            </form>
-        </div>
-    </td>';
+            </button>
+        </form>
+    </div>
+</td>';
 
                 // render các con
                 $html .= $renderRows($item['id'], $level + 1);
@@ -214,14 +247,14 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <table id="datatable" class="table table-bordered text-center dt-responsive nowrap w-100">
+                    <table class="table table-bordered text-center dt-responsive nowrap w-100">
                         <thead class="text-center">
                             <tr>
                                 <th class="text-center" style="width:70px">STT</th>
                                 <th class="text-center">Tên chi nhánh</th>
                                 <th class="text-center">Địa chỉ</th>
                                 <th class="text-center" style="width:120px">Trạng thái</th>
-                                <th class="text-center" style="width:170px">Thao tác</th>
+                                <th class="text-center">Thao tác</th>
                             </tr>
                         </thead>
                         <tbody>

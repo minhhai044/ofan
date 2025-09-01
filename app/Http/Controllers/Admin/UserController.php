@@ -25,6 +25,15 @@ class UserController extends Controller
         $users = $this->userService->getAllUsers(20, $request->all(), []);
         return view('admin.users.index', compact('users'));
     }
+    public function indexStaff(Request $request)
+    {
+        $filters = $request->all();
+        $filters['role'] = 1;
+        $branches = $this->branchService->getAllBranches([], [], true);
+
+        $users = $this->userService->getAllUsers(20, $filters, []);
+        return view('admin.users.index_staff', compact('users','branches'));
+    }
 
     public function create()
     {

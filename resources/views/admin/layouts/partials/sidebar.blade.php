@@ -80,13 +80,12 @@
                     <span key="t-ecommerce">Quản lý tài khoản</span>
                 </a>
                 <ul class="sub-menu" aria-expanded="false">
-                    <li><a href="{{ route('users.index') }}" key="t-products">Khách hàng</a></li>
-                    <li><a href="#" key="t-product-detail">Đại lý</a></li>
-                    <li><a href="#" key="t-orders">Nhân viên</a></li>
+                    <li><a href="{{ route('users.index') }}" key="t-products">Người dùng</a></li>
+                    <li><a href="{{ route('users.indexStaff') }}" key="t-orders">Nhân viên</a></li>
                 </ul>
             </li>
 
-           <li>
+            <li>
                 <a href="{{ route('branches.index') }}" class="waves-effect">
                     <i class="bx bx-building-house"></i>
                     <span key="t-branches">Quản lý chi nhánh</span>
