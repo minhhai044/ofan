@@ -29,8 +29,11 @@ Route::controller(ProductCategoryController::class)
     ->middleware(['check_login', 'admin'])
     ->group(function () {
         Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::get('{product_categories}/', 'edit')->name('edit');
         Route::post('/', 'store')->name('store');
-        Route::put('/', 'update')->name('update');
+        Route::put('{product_categories}/', 'update')->name('update');
+        Route::put('{product_categories}/updateStatus', 'updateStatus')->name('updateStatus');
     });
 
 
@@ -45,7 +48,7 @@ Route::controller(UserController::class)
         Route::post('/', 'store')->name('store');
         Route::get('{users}/', 'edit')->name('edit');
         Route::put('{users}/', 'update')->name('update');
-        Route::put('{users}/updateStatus', action: 'updateStatus')->name('updateStatus');
+        Route::put('{users}/updateStatus',  'updateStatus')->name('updateStatus');
     });
 
 Route::controller(PermissionController::class)
