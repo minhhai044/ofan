@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\BranchController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\ProductCategoryController;
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -72,4 +73,18 @@ Route::controller(BranchController::class)
         Route::get('{branches}/', 'edit')->name('edit');
         Route::put('{branches}/', 'update')->name('update');
         Route::put('{branches}/updateStatus', 'updateStatus')->name('updateStatus');
+    });
+
+
+Route::controller(ProductController::class)
+    ->prefix('products')
+    ->as('products.')
+    ->middleware(['check_login', 'admin'])
+    ->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/', 'store')->name('store');
+        Route::get('{products}/', 'edit')->name('edit');
+        Route::put('{products}/', 'update')->name('update');
+        Route::put('{products}/updateStatus', 'updateStatus')->name('updateStatus');
     });

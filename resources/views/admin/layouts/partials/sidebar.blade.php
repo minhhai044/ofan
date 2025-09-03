@@ -32,7 +32,7 @@
                 </a>
                 <ul class="sub-menu" aria-expanded="false">
                     <li><a href="{{ route('product_categories.index') }}" key="t-tui-calendar">Danh mục</a></li>
-                    <li><a href="#" key="t-full-calendar">Danh sách sản phẩm</a></li>
+                    <li><a href="{{ route('products.index') }}" key="t-full-calendar">Danh sách sản phẩm</a></li>
                     <li><a href="#" key="t-full-calendar">Danh sách bảo hành</a></li>
                 </ul>
             </li>

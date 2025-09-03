@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Branch;
+use App\Models\ProductCategory;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -34,8 +35,14 @@ class DatabaseSeeder extends Seeder
             'branch_id' => 1,
             'slug' => generateSlug('Ofan')
         ]);
-
-
+        ProductCategory::query()->create([
+            'name' => 'Lõi lọc nước',
+            'slug' => generateSlug('Lõi lọc nước')
+        ]);
+        ProductCategory::query()->create([
+            'name' => 'Phụ kiện máy lọc nước',
+            'slug' => generateSlug('Phụ kiện máy lọc nước')
+        ]);
 
         // Reset cache permission
         app(PermissionRegistrar::class)->forgetCachedPermissions();
