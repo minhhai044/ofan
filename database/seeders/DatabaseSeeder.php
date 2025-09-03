@@ -55,6 +55,7 @@ class DatabaseSeeder extends Seeder
                 $tatCaQuyen[] = $tenQuyen;
                 Permission::firstOrCreate([
                     'name'       => $tenQuyen,
+                    'code'       => codeName($tenQuyen),
                     'guard_name' => 'web',
                 ]);
             }

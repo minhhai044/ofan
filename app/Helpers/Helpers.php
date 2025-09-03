@@ -128,3 +128,33 @@ if (!function_exists('codeMisa')) {
         return $name . '_' . $phone;
     }
 }
+
+
+
+/**
+ * Tạo key name
+ * @param string $name  Tên người dùng
+ * @return string Trả về name
+ */
+
+if (!function_exists('codeName')) {
+    function codeName($name)
+    {
+        // Bỏ khoảng trắng đầu/cuối
+        $name = trim($name);
+
+        // Bỏ dấu tiếng Việt ổn định
+        $name = Str::ascii($name);
+
+        // về chữ thường
+        $name = mb_strtolower($name, 'UTF-8');
+
+        // Mọi ký tự không phải [a-z0-9_] -> chuyển thành "_"
+        $name = preg_replace('/[^\w]+/u', '_', $name);
+
+        // Gom nhiều "_" liên tiếp còn một, và bỏ "_" ở đầu/cuối
+        $name = preg_replace('/_+/', '_', trim($name, '_'));
+
+        return $name;
+    }
+}

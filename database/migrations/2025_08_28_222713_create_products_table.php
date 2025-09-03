@@ -16,16 +16,19 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(ProductCategory::class)->constrained();
             $table->string('name')->unique();
-            $table->string('code')->unique();
-            $table->string('bar_code')->unique();
+            $table->string('sku')->unique();
             $table->string('code_misa')->unique();
+            $table->string('bar_code')->unique();
             $table->string('slug')->unique();
-            $table->double('commission_discount')->default(0)->comment('Phần trăm chiết khấu hoa hồng');
+            $table->double('commission_discount')->default(0);
             $table->decimal('price', 20, 0)->default(0);
             $table->decimal('price_sale', 20, 0)->default(0);
+            $table->integer('filter_stages')->default(0); // Số cấp lọc
+            $table->string('unit')->nullable();
             $table->boolean('is_active')->default(1); // 0: Ngừng hoạt động, 1: Hoạt động
+            $table->boolean('is_special')->default(0); // 0: Sản phẩm BT, 1: Hoạt động
+
             $table->json('images')->nullable();
-            $table->integer('maintenance_schedule')->default(0); // Thời gian bảo trì (tháng)
             $table->text('description')->nullable();
             $table->timestamps();
         });

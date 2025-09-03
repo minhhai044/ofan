@@ -132,7 +132,7 @@
                                         <input type="hidden" name="is_active" value="{{ $active ? 0 : 1 }}">
                                         <button class="btn {{ $active ? 'btn-danger' : 'btn-success' }} btn-sm btn-action"
                                             title="{{ $active ? 'Ngừng hoạt động' : 'Kích hoạt' }}">
-                                            <i class="bx {{ $active ? 'bx-power-off' : 'bx-check' }}"></i>
+                                            <i class="bx {{ $active ? 'bx-trash' : 'bx-check' }}"></i>
                                         </button>
                                     </form>
                                 </div>
