@@ -50,11 +50,31 @@
                     </div>
                 </div>
 
-                {{-- Trạng thái --}}
+
+                {{-- Danh mục --}}
                 <div class="col-sm-3 col-md-2">
                     {{-- <label class="form-label mb-1">Trạng thái</label> --}}
                     <div class="input-group input-group-sm">
                         <span class="input-group-text"><i class="fas fa-align-justify"></i></span>
+                        <select name="product_category_id" class="form-select" onchange="this.form.submit()">
+                            <option value="" {{ request('product_category_id', '') === '' ? 'selected' : '' }}>Tất cả danh mục
+                            </option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}" @selected(request('product_category_id', '') == $category->id)>{{ $category->name }}
+                                </option>
+                            @endforeach
+                            </option>
+                        </select>
+                    </div>
+
+                </div>
+
+
+                {{-- Trạng thái --}}
+                <div class="col-sm-3 col-md-2">
+                    {{-- <label class="form-label mb-1">Trạng thái</label> --}}
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-text"><i class="bx bx-toggle-left"></i></span>
                         <select name="is_active" class="form-select" onchange="this.form.submit()">
                             <option value="" {{ request('is_active', '') === '' ? 'selected' : '' }}>Tất cả</option>
                             <option value="1" {{ request('is_active') === '1' ? 'selected' : '' }}>Hoạt động</option>
@@ -88,9 +108,9 @@
                         <thead class="text-center">
                             <tr>
                                 <th class="text-center">STT</th>
-                              
+
                                 <th class="text-center">Ảnh</th>
-                                  <th class="text-center">Tên sản phẩm</th>
+                                <th class="text-center">Tên sản phẩm</th>
                                 <th class="text-center">Trạng thái</th>
                                 <th class="text-center">Thao tác</th>
                             </tr>

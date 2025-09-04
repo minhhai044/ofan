@@ -12,4 +12,9 @@ class ProductAccessory extends Model
         'quantity',
         'is_active',
     ];
+
+     public function productAccessory()
+    {
+        return $this->belongsTo(Product::class, 'product_accessory_id');
+    }
 }

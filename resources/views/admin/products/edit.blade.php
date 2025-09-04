@@ -1,4 +1,4 @@
-{{-- resources/views/admin/products/create.blade.php --}}
+{{-- resources/views/admin/products/edit.blade.php --}}
 @extends('admin.layouts.master')
 
 @section('style')
@@ -63,17 +63,6 @@
             color: #6c757d;
         }
 
-
-
-
-        .thumb {
-            width: 88px;
-            height: 88px;
-            object-fit: cover;
-            border-radius: 8px;
-            border: 1px solid #eee;
-        }
-
         .g-thumb {
             position: relative;
             display: inline-block;
@@ -85,6 +74,18 @@
             top: -8px;
             right: -8px;
         }
+
+        .existing-image {
+            position: relative;
+            display: inline-block;
+            margin: 4px;
+        }
+
+        .existing-image .btn-remove-existing {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+        }
     </style>
 @endsection
 
@@ -92,20 +93,21 @@
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0 font-size-18">Thêm mới sản phẩm</h4>
+                <h4 class="mb-sm-0 font-size-18">Chỉnh sửa sản phẩm</h4>
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="{{ route('products.index') }}">Danh sách sản phẩm</a></li>
-                        <li class="breadcrumb-item active">Thêm mới</li>
+                        <li class="breadcrumb-item active">Chỉnh sửa</li>
                     </ol>
                 </div>
             </div>
         </div>
     </div>
 
-    <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data" class="needs-validation"
-        novalidate>
+    <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data"
+        class="needs-validation" novalidate>
         @csrf
+        @method('PUT')
 
         <div class="row">
             {{-- ===== COL 8: Thông tin, Lõi lọc, Phụ kiện ===== --}}
@@ -124,7 +126,7 @@
                                     class="form-select select2 @error('product_category_id') is-invalid @enderror"
                                     data-placeholder="Chọn danh mục" required>
                                     @foreach ($categories ?? [] as $c)
-                                        <option value="{{ $c->id }}" @selected(old('product_category_id') == $c->id)>{{ $c->name }}
+                                        <option value="{{ $c->id }}" @selected(old('product_category_id', $product->product_category_id) == $c->id)>{{ $c->name }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -140,7 +142,7 @@
                                 <label class="form-label fw-bold">Tên sản phẩm <span class="text-danger">*</span></label>
                                 <input type="text" id="name" name="name"
                                     class="form-control @error('name') is-invalid @enderror" placeholder="VD: Máy lọc nước"
-                                    value="{{ old('name') }}" required minlength="2" maxlength="255">
+                                    value="{{ old('name', $product->name) }}" required minlength="2" maxlength="255">
                                 @error('name')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @else
@@ -153,7 +155,7 @@
                                 <label class="form-label fw-bold">SKU <span class="text-danger">*</span></label>
                                 <input type="text" id="sku" name="sku"
                                     class="form-control @error('sku') is-invalid @enderror" placeholder="VD: ALX-1000"
-                                    value="{{ old('sku') }}" required maxlength="100">
+                                    value="{{ old('sku', $product->sku) }}" required maxlength="100">
                                 @error('sku')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @else
@@ -166,19 +168,16 @@
                                 <div class="d-flex justify-content-between align-items-end">
                                     <label class="form-label fw-bold mb-0">Mã MISA <span
                                             class="text-danger">*</span></label>
-                                    {{-- <button class="btn btn-sm btn-outline-secondary" type="button" id="regen_misa">Tạo lại
-                                        từ Tên + SKU</button> --}}
                                 </div>
                                 <input type="text" id="code_misa" name="code_misa"
                                     class="form-control mt-2 @error('code_misa') is-invalid @enderror"
-                                    placeholder="VD: MAYLOCNUOC" value="{{ old('code_misa') }}" required
-                                    pattern="^[A-Z0-9_]{2,100}$" maxlength="100">
+                                    placeholder="VD: MAYLOCNUOC" value="{{ old('code_misa', $product->code_misa) }}"
+                                    required pattern="^[A-Z0-9_]{2,100}$" maxlength="100">
                                 @error('code_misa')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @else
                                     <div class="invalid-feedback">IN HOA, số, gạch dưới (_), 2–100 ký tự.</div>
                                 @enderror
-
                             </div>
 
                             {{-- Mã vạch --}}
@@ -187,7 +186,8 @@
                                         class="text-danger">*</span></label>
                                 <input type="text" id="bar_code" name="bar_code"
                                     class="form-control @error('bar_code') is-invalid @enderror"
-                                    placeholder="VD: 8938505970xxx" value="{{ old('bar_code') }}" required maxlength="100">
+                                    placeholder="VD: 8938505970xxx" value="{{ old('bar_code', $product->bar_code) }}"
+                                    required maxlength="100">
                                 @error('bar_code')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @else
@@ -200,7 +200,8 @@
                                 <label class="form-label fw-bold">Giá (VNĐ) <span class="text-danger">*</span></label>
                                 <input type="text" id="price" name="price"
                                     class="form-control currency-dot @error('price') is-invalid @enderror"
-                                    placeholder="VD: 12.500.000" value="{{ old('price', 0) }}" required>
+                                    placeholder="VD: 12.500.000"
+                                    value="{{ old('price', number_format($product->price, 0, ',', '.')) }}" required>
                                 @error('price')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @else
@@ -211,7 +212,8 @@
                                 <label class="form-label fw-bold">Giá khuyến mãi (VNĐ)</label>
                                 <input type="text" id="price_sale" name="price_sale"
                                     class="form-control currency-dot @error('price_sale') is-invalid @enderror"
-                                    placeholder="VD: 10.990.000" value="{{ old('price_sale', 0) }}">
+                                    placeholder="VD: 10.990.000"
+                                    value="{{ old('price_sale', $product->price_sale ? number_format($product->price_sale, 0, ',', '.') : '') }}">
                                 @error('price_sale')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -223,7 +225,8 @@
                                 <input type="number" step="0.01" min="0" max="100"
                                     id="commission_discount" name="commission_discount"
                                     class="form-control @error('commission_discount') is-invalid @enderror"
-                                    placeholder="VD: 5" value="{{ old('commission_discount', 0) }}">
+                                    placeholder="VD: 5"
+                                    value="{{ old('commission_discount', $product->commission_discount) }}">
                                 @error('commission_discount')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -232,7 +235,7 @@
                                 <label class="form-label fw-bold">Số cấp lọc</label>
                                 <input type="number" min="0" max="50" id="filter_stages"
                                     name="filter_stages" class="form-control @error('filter_stages') is-invalid @enderror"
-                                    placeholder="VD: 7" value="{{ old('filter_stages', 0) }}">
+                                    placeholder="VD: 7" value="{{ old('filter_stages', $product->filter_stages) }}">
                                 @error('filter_stages')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -241,7 +244,8 @@
                                 <label class="form-label fw-bold">Đơn vị</label>
                                 <input type="text" id="unit" name="unit"
                                     class="form-control @error('unit') is-invalid @enderror"
-                                    placeholder="VD: bộ / máy / chiếc" value="{{ old('unit') }}" maxlength="50">
+                                    placeholder="VD: bộ / máy / chiếc" value="{{ old('unit', $product->unit) }}"
+                                    maxlength="50">
                                 @error('unit')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -265,12 +269,12 @@
                                                     <th class="w-120">Ảnh</th>
                                                     <th class="w-120">Tháng</th>
                                                     <th class="w-100px">Số lượng</th>
-                                                    <th class="w-120">Trạng thái</th>
+                                                    <th class="w-60">Trạng thái</th>
                                                     <th class="nowrap" style="width:80px">Thao tác</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="filtersBody">
-                                                {{-- Hàng sẽ được thêm bằng JS --}}
+
                                             </tbody>
                                         </table>
                                     </div>
@@ -299,7 +303,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody id="accessoriesBody">
-                                                {{-- Hàng sẽ được thêm bằng JS --}}
+
                                             </tbody>
                                         </table>
 
@@ -311,7 +315,7 @@
                                 <label class="form-label fw-bold">Mô tả</label>
                                 <textarea name="description" id="description" rows="5"
                                     class="form-control ckeditor @error('description') is-invalid @enderror"
-                                    placeholder="Mô tả chi tiết sản phẩm...">{{ old('description') }}</textarea>
+                                    placeholder="Mô tả chi tiết sản phẩm...">{{ old('description', $product->description) }}</textarea>
                                 @error('description')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -319,8 +323,6 @@
                         </div>
                     </div>
                 </div>
-
-
 
             </div>
 
@@ -337,15 +339,15 @@
                                 <div class="form-check form-switch m-0">
                                     <input type="hidden" name="is_active" value="0">
                                     <input class="form-check-input" type="checkbox" role="switch" id="is_active"
-                                        name="is_active" value="1" checked>
+                                        name="is_active" value="1" @checked($product->is_active)>
                                 </div>
                             </div>
                             <div class="col-12 d-flex align-items-center justify-content-between">
-                                <label class="form-label m-0">Gắn nhãn “Đặc biệt”</label>
+                                <label class="form-label m-0">Gắn nhãn "Đặc biệt"</label>
                                 <div class="form-check form-switch m-0">
                                     <input type="hidden" name="is_special" value="0">
                                     <input class="form-check-input" type="checkbox" role="switch" id="is_special"
-                                        name="is_special" value="1">
+                                        name="is_special" value="1" @checked($product->is_special)>
                                 </div>
                             </div>
                         </div>
@@ -364,6 +366,25 @@
                             @error('featured_image')
                                 <div class="invalid-feedback d-block">{{ $message }}</div>
                             @enderror
+
+                            {{-- Hiển thị ảnh hiện có --}}
+                            @if ($product->images)
+                                @foreach ($product->images as $images)
+                                    @if ($images['status'] == 1)
+                                        <div class="mt-2">
+                                            <div class="existing-image">
+                                                <img src="{{ getImageStorage($images['image']) }}" class="thumb"
+                                                    alt="featured">
+                                                <button type="button" class="btn btn-sm btn-danger btn-remove-existing"
+                                                    data-field="featured_image" data-id="{{ $images['id'] }}">
+                                                    <i class="bx bx-x"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            @endif
+
                             <div class="mt-2 d-flex align-items-center gap-2">
                                 <img id="featuredPreview" class="thumb" style="display:none" alt="featured">
                                 <button type="button" id="btnClearFeatured" class="btn btn-sm btn-outline-secondary"
@@ -385,6 +406,29 @@
                             @error('featured_images.*')
                                 <div class="invalid-feedback d-block">{{ $message }}</div>
                             @enderror
+
+                            {{-- Hiển thị ảnh hiện có --}}
+                            @if ($product->images)
+
+                                @if (count($product->images) > 0)
+                                    <div class="mt-2" id="existingGallery">
+                                        @foreach ($product->images as $index => $images)
+                                            @if ($images['status'] == 0)
+                                                <div class="existing-image">
+                                                    <img src="{{ getImageStorage($images['image']) }}" class="thumb"
+                                                        alt="gallery-{{ $index }}">
+                                                    <button type="button"
+                                                        class="btn btn-sm btn-danger btn-remove-existing"
+                                                        data-index="{{ $index }}" data-id="{{ $images['id'] }}">
+                                                        <i class="bx bx-x"></i>
+                                                    </button>
+                                                </div>
+                                            @endif
+                                        @endforeach
+                                    </div>
+                                @endif
+                            @endif
+
                             <div class="form-text">Tối đa 10 ảnh, mỗi ảnh ≤ 4MB. Có thể chọn nhiều ảnh.</div>
                         </div>
 
@@ -392,14 +436,12 @@
 
                         <div class="d-flex gap-2 mt-3">
                             <a href="{{ route('products.index') }}" class="btn btn-light w-50">Hủy</a>
-                            <button type="submit" class="btn btn-primary w-50">Tạo mới</button>
+                            <button type="submit" class="btn btn-primary w-50">Cập nhật</button>
                         </div>
                     </div>
                 </div>
 
-
             </div>
-
 
         </div>
     </form>
@@ -433,9 +475,10 @@
                         </option>
                     @endforeach
                 </select>
+                <input type="hidden" name="filters[__INDEX__][id]" value="">
             </td>
             <td class="text-center">
-                <img class="thumb" alt="thumb" style="display:none" />
+                <span class="text-muted">Chưa chọn</span>
             </td>
             <td class="text-center">
                 <input type="number" min="0" class="form-control text-center" name="filters[__INDEX__][maintenance_schedule]" value="6" />
@@ -484,9 +527,10 @@
                     @endforeach
 
                 </select>
+                <input type="hidden" name="accessories[__INDEX__][id]" value="">
             </td>
             <td class="text-center">
-                <img class="thumb" alt="thumb" style="display:none" />
+                <span class="text-muted">Chưa chọn</span>
             </td>
             <td class="text-center">
                 <input type="number" min="1" class="form-control text-center" name="accessories[__INDEX__][quantity]" value="1" />
@@ -526,26 +570,11 @@
                 .replace(/[^0-9A-Za-z]+/g, '')
                 .toUpperCase();
 
-            // slug (phòng khi bạn có field slug, có thì chạy, không có thì bỏ qua)
-            const toSlug = s => (s || '')
-                .toString()
-                .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-                .replace(/[đĐ]/g, 'd')
-                .toLowerCase()
-                .replace(/[^a-z0-9\s-]/g, '')
-                .trim().replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
-
-            // random 13 số, số đầu không = 0
-            function random13Digits() {
-                let s = String(Math.floor(Math.random() * 9) + 1); // 1..9
-                for (let i = 0; i < 12; i++) s += Math.floor(Math.random() * 10);
-                return s;
-            }
-
             function applySelect2(ctx) {
                 const $root = ctx ? $(ctx) : $(document);
                 $root.find('select.select2').each(function() {
                     const $el = $(this);
+
                     // nếu đã init trước đó thì destroy để tránh double-init
                     if ($el.hasClass('select2-hidden-accessible')) {
                         $el.select2('destroy');
@@ -553,9 +582,7 @@
                     $el.select2({
                         width: '100%',
                         placeholder: $el.data('placeholder') || 'Chọn...',
-                        allowClear: true,
-                        dropdownParent: $(document
-                            .body) // nếu dùng trong modal, đổi sang $el.closest('.modal')
+                        dropdownParent: $(document.body)
                     });
                 });
             }
@@ -581,17 +608,6 @@
                     $('#code_misa').val(toCode(name));
                 }
 
-                // Tự sinh barcode 13 số NGẪU NHIÊN 1 LẦN khi bắt đầu gõ tên (nếu user chưa động vào barcode)
-                if (!barcodeTouched && !barcodeAutoSet && name.trim().length) {
-                    $('#bar_code').val(random13Digits());
-                    barcodeAutoSet = true;
-                }
-
-                // (Tùy chọn) nếu có field slug thì tự sinh slug (chỉ khi có #slug)
-                if ($('#slug').length) {
-                    const slugTouched = ($('#slug').data('touched') === 1);
-                    if (!slugTouched) $('#slug').val(toSlug(name));
-                }
             });
 
             /* ========= Giá: thêm dấu chấm khi nhập ========= */
@@ -603,7 +619,6 @@
                 const raw = this.value.replace(/\D/g, '');
                 this.value = raw ? fmtVN.format(raw) : '';
             });
-
 
             /* ===== Ảnh đại diện (single) ===== */
             (function() {
@@ -688,34 +703,117 @@
                 });
             })();
 
+            /* ===== Xóa ảnh hiện có ===== */
+            $(document).on('click', '.btn-remove-existing', function() {
+                const $btn = $(this);
+                const $img = $btn.closest('.existing-image');
+                const imageId = $btn.data('id');
+                const productId = '{{ $product->id }}';
+
+                if (!imageId) {
+                    alert('Không tìm thấy ID ảnh!');
+                    return;
+                }
+
+
+
+                // Disable button để tránh click nhiều lần
+                $btn.prop('disabled', true);
+
+                // Gửi AJAX request xóa ảnh
+                $.ajax({
+                    url: '{{ route('products.updateImage', $product->id) }}',
+                    method: 'PUT',
+                    data: {
+                        data: imageId,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        // Xóa ảnh khỏi DOM với hiệu ứng
+                        $img.fadeOut(300, function() {
+                            $(this).remove();
+                        });
+                        toastr.success('Xóa ảnh thành công!');
+                    },
+                    error: function(xhr, status, error) {
+                        // Enable lại button khi có lỗi
+                        $btn.prop('disabled', false);
+                        toastr.error('Xóa ảnh thất bại!');
+                    }
+                });
+            });
 
             /* ========= Repeater: Filters & Accessories ========= */
-            let filterIndex = 0,
-                accessoryIndex = 0;
+            let filterIndex = {{ $product->productFilters ? count($product->productFilters) : 0 }};
+            let accessoryIndex = {{ $product->productAccessories ? count($product->productAccessories) : 0 }};
 
-            function addFilterRow() {
+            // Dữ liệu hiện có từ server
+            const existingFilters = @json($product->productFilters ?? []);
+            const existingAccessories = @json($product->productAccessories ?? []);
+
+            function addFilterRow(filterData = null) {
                 let tpl = $('#tplFilterRow').html().replace(/__INDEX__/g, filterIndex++);
                 const $row = $(tpl);
+
+                // Nếu có dữ liệu từ server, điền vào
+                if (filterData) {
+                    $row.find('select[name*="[product_filter_id]"]').val(filterData.product_filter_id);
+                    $row.find('input[name*="[maintenance_schedule]"]').val(filterData.maintenance_schedule ?? 6);
+                    $row.find('input[name*="[quantity]"]').val(filterData.quantity ?? 1);
+                    $row.find('input[name*="[is_active]"]').prop('checked', filterData.is_active);
+                    if (filterData.id) {
+                        $row.find('input[name*="[id]"]').val(filterData.id);
+                    }
+                }
+
                 $('#filtersBody').append($row);
                 applySelect2($row);
                 initRowThumb($row);
             }
 
-            addFilterRow();
-
-            function addAccessoryRow() {
+            function addAccessoryRow(accessoryData = null) {
                 let tpl = $('#tplAccessoryRow').html().replace(/__INDEX__/g, accessoryIndex++);
                 const $row = $(tpl);
+
+                // Nếu có dữ liệu từ server, điền vào
+                if (accessoryData) {
+                    $row.find('select[name*="[product_accessory_id]"]').val(accessoryData.product_accessory_id);
+                    $row.find('input[name*="[quantity]"]').val(accessoryData.quantity ?? 1);
+                    $row.find('input[name*="[is_active]"]').prop('checked', accessoryData.is_active);
+                    if (accessoryData.id) {
+                        $row.find('input[name*="[id]"]').val(accessoryData.id);
+                    }
+                }
+
                 $('#accessoriesBody').append($row);
                 applySelect2($row);
                 initRowThumb($row);
             }
-            addAccessoryRow();
+
+            // Render dữ liệu hiện có từ server
+            function renderExistingData() {
+                // Render filters
+                existingFilters.forEach(filter => {
+                    addFilterRow(filter);
+                });
+
+                // Render accessories
+                existingAccessories.forEach(accessory => {
+                    addAccessoryRow(accessory);
+                });
+            }
+
             $('#btnAddFilter').on('click', addFilterRow);
             $('#btnAddAccessory').on('click', addAccessoryRow);
             $(document).on('click', '.btnRemoveRow', function() {
                 $(this).closest('tr').remove();
             });
+
+            // Khởi tạo select2 cho các select hiện có
+            applySelect2();
+
+            // Render dữ liệu hiện có từ server
+            renderExistingData();
 
             /* ========= CKEditor (nếu dùng) ========= */
             if (typeof CKEDITOR !== 'undefined') {
@@ -725,26 +823,84 @@
                 });
             }
 
-           
-            // Hiển thị ảnh thumb khi chọn lõi lọc/phụ kiện
-            function initRowThumb($ctx){
-                const $row = $ctx.closest('tr').length ? $ctx.closest('tr') : $ctx;
-                const $select = $row.find('select.select2');
-                const $img = $row.find('img.thumb');
+            // ========= THUMB IMAGE HANDLING =========
 
-                function updateThumb(){
-                    const url = $select.find('option:selected').data('thumb');
-                    if(url){
-                        $img.attr('src', url).show();
-                    }else{
-                        $img.attr('src', '').hide();
-                    }
+            // Function để update ảnh cho một row cụ thể
+            function updateRowThumb($row) {
+                const $select = $row.find('select.select2');
+                const $thumbCell = $row.find('td').eq(1); // Cột thứ 2 (index 1) chứa ảnh
+
+                if (!$select.length || !$thumbCell.length) {
+                    return;
                 }
 
-                // init once
-                updateThumb();
-                $select.on('change', updateThumb);
+                const selectedValue = $select.val();
+                if (selectedValue) {
+                    const $selectedOption = $select.find('option:selected');
+                    const url = $selectedOption.data('thumb');
+
+                    if (url && url !== '' && url !== 'undefined' && url !== 'null') {
+                        $thumbCell.html('<img class="thumb" src="' + url + '" alt="thumb" />');
+                    } else {
+                        $thumbCell.html('<span class="text-muted">Chưa chọn</span>');
+                    }
+                } else {
+                    $thumbCell.html('<span class="text-muted">Chưa chọn</span>');
+                }
             }
+
+            // Function để khởi tạo thumb cho một row
+            function initRowThumb($row) {
+                const $select = $row.find('select.select2');
+
+                if (!$select.length) {
+                    return;
+                }
+
+                // Update ảnh hiện tại
+                updateRowThumb($row);
+
+                // Bind event handlers
+                $select.off('change.thumb select2:select.thumb select2:clear.thumb');
+                $select.on('change.thumb', function() {
+                    updateRowThumb($row);
+                });
+                $select.on('select2:select.thumb select2:clear.thumb', function() {
+                    updateRowThumb($row);
+                });
+            }
+
+            // Khởi tạo thumb cho tất cả rows hiện có
+            function initAllRows() {
+                $('#filtersBody tr, #accessoriesBody tr').each(function() {
+                    initRowThumb($(this));
+                });
+            }
+
+            // Khởi tạo lại sau khi DOM ready hoàn toàn
+            setTimeout(initAllRows, 100);
+
+            // Debug functions
+            window.forceUpdateAllThumbs = initAllRows;
+            window.debugThumbs = function() {
+                console.log('=== DEBUG THUMBS ===');
+                $('#filtersBody tr, #accessoriesBody tr').each(function(index) {
+                    const $row = $(this);
+                    const $select = $row.find('select.select2');
+                    const $thumbCell = $row.find('td').eq(1);
+                    const selectedValue = $select.val();
+                    const $selectedOption = $select.find('option:selected');
+                    const url = $selectedOption.data('thumb');
+
+                    console.log(`Row ${index}:`, {
+                        hasSelect: $select.length > 0,
+                        selectedValue: selectedValue,
+                        url: url,
+                        thumbCellContent: $thumbCell.html()
+                    });
+                });
+                console.log('=== END DEBUG ===');
+            };
 
         });
     </script>

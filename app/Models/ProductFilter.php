@@ -13,4 +13,9 @@ class ProductFilter extends Model
         'quantity',
         'is_active',
     ];
+
+    public function productFilter()
+    {
+        return $this->belongsTo(Product::class, 'product_filter_id');
+    }
 }

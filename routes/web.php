@@ -87,4 +87,7 @@ Route::controller(ProductController::class)
         Route::get('{products}/', 'edit')->name('edit');
         Route::put('{products}/', 'update')->name('update');
         Route::put('{products}/updateStatus', 'updateStatus')->name('updateStatus');
+
+        Route::put('{products}/updateImage', 'updateImage')->name('updateImage');
+
     });

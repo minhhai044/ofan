@@ -81,7 +81,7 @@ class ProductRequest extends FormRequest
 
             'commission_discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
             'price'      => ['required', 'regex:/^\d{1,20}$/'],
-            'price_sale' => ['nullable', 'regex:/^\d{1,20}$/', 'lte:price'],
+            'price_sale' => ['required', 'regex:/^\d{1,20}$/', 'lte:price'],
 
             'filter_stages' => ['nullable', 'integer', 'min:0', 'max:50'],
             'unit'          => ['nullable', 'string', 'max:50'],
