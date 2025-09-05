@@ -44,11 +44,7 @@
             padding: .25rem .5rem;
         }
 
-        form .form-control,
-        form .form-select {
-            max-width: 180px;
-            /* tuỳ chỉnh theo ý bạn */
-        }
+        
     </style>
 
     @php
@@ -109,41 +105,14 @@
                         </td>';
                 $html .= '  <td>' . $item['address'] . '</td>';
                 $html .= '  <td class="text-center">' . $badge . '</td>';
-                //             $html .=
-                //                 '  <td >
-
-        //         <a href="' .
-                //                 route('branches.edit', $item['slug']) .
-                //                 '" class="btn btn-warning btn-action" title="Sửa">
-        //             <i class="bx bx-edit"></i>
-        //         </a>
-
-        //         <form action="' .
-                //                 route('branches.updateStatus', $item['id']) .
-                //                 '" method="POST" >
-        //             ' .
-                //                 csrf_field() .
-                //                 method_field('PUT') .
-                //                 '
-        //             <input type="hidden" name="is_active" value="' .
-                //                 ($item['is_active'] ? 0 : 1) .
-                //                 '">
-        //             <button type="submit" class="btn ' .
-                //                 ($item['is_active'] ? 'btn-danger' : 'btn-success') .
-                //                 ' btn-action"
-        //                     title="' .
-                //                 ($item['is_active'] ? 'Ngừng hoạt động' : 'Kích hoạt lại') .
-                //                 '">
-        //                 <i class="bx ' .
-                //                 ($item['is_active'] ? 'bx-trash' : 'bx-check') .
-                //                 '"></i>
-        //             </button>
-        //         </form>
-
-        // </td>';
                 $html .=
                     '  <td class="text-center action-cell">
     <div class="d-inline-flex align-items-center gap-1">
+        <a href="' .
+                    '#' .
+                    '" class="btn btn-success btn-action" title="Xem Kho">
+            <i class="bx bx-show"></i>
+        </a>
         <a href="' .
                     route('branches.edit', $item['slug']) .
                     '" class="btn btn-warning btn-action" title="Sửa">

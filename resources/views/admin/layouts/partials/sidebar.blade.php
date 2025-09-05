@@ -57,7 +57,7 @@
                 </ul>
             </li>
 
-            <li>
+            {{-- <li>
                 <a href="javascript: void(0);" class="has-arrow waves-effect">
                     <i class="bx bx-cart"></i>
                     <span key="t-ecommerce">Quản lý bán buôn</span>
@@ -72,7 +72,7 @@
                     <li><a href="ecommerce-shops.html" key="t-shops">Shops</a></li>
                     <li><a href="ecommerce-add-product.html" key="t-add-product">Add Product</a></li>
                 </ul>
-            </li>
+            </li> --}}
 
             <li>
                 <a href="javascript: void(0);" class="has-arrow waves-effect">
@@ -92,7 +92,7 @@
                     <span key="t-branches">Quản lý chi nhánh</span>
                 </a>
             </li>
-            <li>
+            {{-- <li>
                 <a href="chat.html" class="waves-effect">
                     <i class="bx bx-chat"></i>
                     <span key="t-chat">Quản lý bài viết</span>
@@ -103,7 +103,7 @@
                     <i class="bx bx-filter-alt"></i>
                     <span key="t-chat">Danh sách tiền lọc</span>
                 </a>
-            </li>
+            </li> --}}
 
         </ul>
     </div>

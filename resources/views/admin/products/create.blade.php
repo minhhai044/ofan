@@ -139,7 +139,7 @@
                             <div class="col-md-6">
                                 <label class="form-label fw-bold">Tên sản phẩm <span class="text-danger">*</span></label>
                                 <input type="text" id="name" name="name"
-                                    class="form-control @error('name') is-invalid @enderror" placeholder="VD: Máy lọc nước"
+                                    class="form-control @error('name') is-invalid @enderror" placeholder="Nhập tên sản phẩm !!!"
                                     value="{{ old('name') }}" required minlength="2" maxlength="255">
                                 @error('name')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -152,7 +152,7 @@
                             <div class="col-md-4">
                                 <label class="form-label fw-bold">SKU <span class="text-danger">*</span></label>
                                 <input type="text" id="sku" name="sku"
-                                    class="form-control @error('sku') is-invalid @enderror" placeholder="VD: ALX-1000"
+                                    class="form-control @error('sku') is-invalid @enderror" placeholder="Nhập mã sản phẩm !!!"
                                     value="{{ old('sku') }}" required maxlength="100">
                                 @error('sku')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -171,7 +171,7 @@
                                 </div>
                                 <input type="text" id="code_misa" name="code_misa"
                                     class="form-control mt-2 @error('code_misa') is-invalid @enderror"
-                                    placeholder="VD: MAYLOCNUOC" value="{{ old('code_misa') }}" required
+                                    placeholder="Nhập mã misa !!!" value="{{ old('code_misa') }}" required
                                     pattern="^[A-Z0-9_]{2,100}$" maxlength="100">
                                 @error('code_misa')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -187,7 +187,7 @@
                                         class="text-danger">*</span></label>
                                 <input type="text" id="bar_code" name="bar_code"
                                     class="form-control @error('bar_code') is-invalid @enderror"
-                                    placeholder="VD: 8938505970xxx" value="{{ old('bar_code') }}" required maxlength="100">
+                                    placeholder="Nhập mã Barcode !!!" value="{{ old('bar_code') }}" required maxlength="100">
                                 @error('bar_code')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @else
