@@ -103,7 +103,7 @@ class AuthController extends Controller
             }
 
             PersonalAccessToken::where('tokenable_id', $user->id)
-                ->where('id', $currentToken->id) // chỉ xóa token này
+                ->where('id', $currentToken->id)
                 ->delete();
 
             return $this->successResponse([], 'Logout successful');

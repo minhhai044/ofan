@@ -9,7 +9,6 @@ trait ApiResponseTrait
     protected function successResponse($data = [], $message = '', $statusCode = Response::HTTP_OK)
     {
         $response = [
-            // 'code' => 1,
             'success' => true,
             'message' => $message,
         ];
@@ -23,7 +22,6 @@ trait ApiResponseTrait
     protected function errorResponse($error, $statusCode = Response::HTTP_INTERNAL_SERVER_ERROR)
     {
         return response()->json([
-            // 'code' => 0,
             'success' => false,
             'error' => $error,
         ], $statusCode);

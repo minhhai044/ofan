@@ -16,6 +16,7 @@ class OrderItem extends Model
         'unit_price',
         'discount_rate',
         'discount_amount',
+        'total_amount',
     ];
 
     protected $casts = [
@@ -23,6 +24,7 @@ class OrderItem extends Model
         'unit_price' => 'decimal:2',
         'discount_rate' => 'decimal:2',
         'discount_amount' => 'decimal:2',
+        'total_amount' => 'decimal:2',
     ];
 
     protected $attributes = [
