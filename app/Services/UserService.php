@@ -98,10 +98,13 @@ class UserService
 
             $data['bank_qr'] = createImageStorage('QrBanks', $data['bank_qr']);
         }
-        if (!empty($data['branch_id'])) {
-            $data['role'] = 1;
-        } else {
-            $data['role'] = 0;
+
+        if (array_key_exists('branch_id', $data)) {
+            if (!empty($data['branch_id'])) {
+                $data['role'] = 1;
+            } elseif (is_null($data['branch_id'])) {
+                $data['role'] = 0;
+            }
         }
         if (empty($data['password'])) {
             unset($data['password']);

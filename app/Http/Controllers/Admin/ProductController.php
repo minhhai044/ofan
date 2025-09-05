@@ -20,7 +20,7 @@ class ProductController extends Controller
     }
     public function index(Request $request)
     {
-        $products = $this->productService->getAllProduct(20, $request->all());
+        $products = $this->productService->getAllProduct(5, $request->all());
         $categories = $this->productCategoryService->getAllProductCategories(0, [], [], true);
 
         // dd($products);
