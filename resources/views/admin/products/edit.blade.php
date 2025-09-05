@@ -213,7 +213,7 @@
                                 <input type="text" id="price_sale" name="price_sale"
                                     class="form-control currency-dot @error('price_sale') is-invalid @enderror"
                                     placeholder="VD: 10.990.000"
-                                    value="{{ old('price_sale', $product->price_sale ? number_format($product->price_sale, 0, ',', '.') : '') }}">
+                                    value="{{ old('price_sale', $product->price_sale ? number_format($product->price_sale, 0, ',', '.') : 0) }}">
                                 @error('price_sale')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror

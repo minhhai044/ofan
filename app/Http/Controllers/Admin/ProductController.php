@@ -63,7 +63,16 @@ class ProductController extends Controller
             return back()->with('error', 'Thao tác không thành công !!!');
         }
     }
-    public function updateStatus(Request $request, string $id) {}
+    public function updateStatus(Request $request, string $id)
+    {
+        try {
+            $this->productService->updateProduct($request->all(), $id);
+            return redirect()->route('products.index')->with('success', 'Thao tác thành công !!!');
+        } catch (\Throwable $th) {
+            Log::error(__CLASS__ . '@' . __FUNCTION__, [$th->getMessage()]);
+            return back()->with('error', 'Thao tác không thành công !!!');
+        }
+    }
     public function updateImage(Request $request, string $id)
     {
         try {

@@ -143,45 +143,6 @@ class ProductService
             $product = $this->findProduct(['productFilters', 'productAccessories'], $id);
 
             $data['slug'] = $product->slug;
-            // if (!empty($data['featured_image'])) {
-            //     $data['images'] = [];
-            //     $featuredImagePath = createImageStorage('ProductImages', $data['featured_image']);
-            //     $hasFeatured = false;
-
-            //     foreach ($product->images ?? [] as $dataImage) {
-            //         if ($dataImage['status'] == 1) {
-
-            //             $data['images'][] = [
-            //                 'id'    => $dataImage['id'],
-            //                 'image' => $featuredImagePath,
-            //                 'status' => 1
-            //             ];
-            //             $hasFeatured = true;
-            //         } else {
-            //             $data['images'][] = $dataImage;
-            //         }
-            //     }
-
-            //     if (!$hasFeatured) {
-            //         $data['images'][] = [
-            //             'id'    => generateSlugIds(),
-            //             'status' => 1,
-            //             'image' => $featuredImagePath
-            //         ];
-            //     }
-            // }
-
-            // if (!empty($data['featured_images'])) {
-            //     foreach ($data['featured_images'] ?? [] as $featured_images) {
-            //         $data['images'][] = [
-            //             'id' => generateSlugIds(),
-            //             'status' => 0,
-            //             'image' => createImageStorage('ProductImages', $featured_images)
-            //         ];
-            //     }
-            // }
-            // Khởi tạo từ ảnh hiện có (nếu lưu JSON)
-            // Nếu $product->images là Eloquent Collection, hãy ->toArray() trước.
 
             $oldImages = $product->images ?? [];
 
@@ -241,7 +202,7 @@ class ProductService
             }
             unset($img);
 
-    
+
             $oldPaths = collect($oldImages)->pluck('image')->all();
             $newPaths = collect($newImages)->pluck('image')->all();
 
@@ -276,6 +237,8 @@ class ProductService
                 $product->productFilters()
                     ->when($kept, fn($q) => $q->whereNotIn('id', $kept))
                     ->delete();
+            } else {
+                $product->productFilters()->delete();
             }
 
 
@@ -301,6 +264,8 @@ class ProductService
                 $product->productAccessories()
                     ->when($kept_accessories, fn($q) => $q->whereNotIn('id', $kept_accessories))
                     ->delete();
+            } else {
+                $product->productAccessories()->delete();
             }
         });
     }

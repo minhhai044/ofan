@@ -135,7 +135,7 @@
                                     <td>
                                         {!! $product->is_active
                                             ? '<span class="badge bg-success">Hoạt động</span>'
-                                            : '<span class="badge bg-secondary">Ngừng</span>' !!}
+                                            : '<span class="badge bg-secondary">Ngừng hoạt động</span>' !!}
                                     </td>
                                     <td class="action-cell">
                                         <div class="d-inline-flex align-items-center gap-1">

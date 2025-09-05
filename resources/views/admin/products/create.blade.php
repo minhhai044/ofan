@@ -553,7 +553,6 @@
                     $el.select2({
                         width: '100%',
                         placeholder: $el.data('placeholder') || 'Chọn...',
-                        allowClear: true,
                         dropdownParent: $(document
                             .body) // nếu dùng trong modal, đổi sang $el.closest('.modal')
                     });
