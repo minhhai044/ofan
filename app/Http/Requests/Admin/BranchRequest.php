@@ -39,6 +39,7 @@ class BranchRequest extends FormRequest
         return [
             'name'      => ['required', 'string', 'min:3', 'max:255', Rule::unique(Branch::class)],
             'address'   => ['required', 'string', 'min:5', 'max:255'],
+            'type'      => ['required'],
             'branch_id' => ['nullable', 'integer', 'exists:branches,id'],
             'code_misa' => ['nullable', 'regex:/^[A-Z0-9]{2,255}$/', 'unique:branches,code_misa'],
         ];
@@ -49,8 +50,9 @@ class BranchRequest extends FormRequest
         return [
             'name'      => ['required', 'string', 'min:3', 'max:255', Rule::unique(Branch::class)->ignore($this->route('branches'))],
             'address'   => ['required', 'string', 'min:5', 'max:255'],
+            'type'      => ['required'],
             'branch_id' => ['nullable', 'integer', 'exists:branches,id'],
-            'code_misa' => ['nullable', 'regex:/^[A-Z0-9]{2,30}$/', Rule::unique(Branch::class,'code_misa')->ignore($this->route('branches'))],
+            'code_misa' => ['nullable', 'regex:/^[A-Z0-9]{2,30}$/', Rule::unique(Branch::class, 'code_misa')->ignore($this->route('branches'))],
         ];
     }
 
@@ -87,6 +89,7 @@ class BranchRequest extends FormRequest
             'address'   => 'địa chỉ',
             'branch_id' => 'chi nhánh cha',
             'code_misa' => 'mã MISA',
+            'type'      => 'vai trò',
         ];
     }
 }

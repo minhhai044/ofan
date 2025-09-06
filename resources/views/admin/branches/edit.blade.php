@@ -88,6 +88,23 @@
                                 </div>
                             </div>
 
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="type" class="form-label fw-bold">Chọn vai trò</label>
+                                    <select name="type" class="form-select @error('type') is-invalid @enderror select2"
+                                        id="type">
+                                        <option @selected($branch->type == 2) value="2">Cộng tác viên</option>
+                                        <option @selected($branch->type == 1) value="1">Đại lý</option>
+                                        <option @selected($branch->type == 0) value="0">Nhà phân phối</option>
+                                    </select>
+                                    @error('type')
+                                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                                    @else
+                                        <div class="invalid-feedback">Giá trị không hợp lệ.</div>
+                                    @enderror
+                                </div>
+                            </div>
+
                             {{-- Mã MISA (tự sinh từ tên; cho phép trống) --}}
                             <div class="col-md-6">
                                 <div class="mb-3">

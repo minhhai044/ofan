@@ -43,8 +43,6 @@
         .btn-action {
             padding: .25rem .5rem;
         }
-
-        
     </style>
 
     @php
@@ -76,9 +74,23 @@
             $childrenMap[$parent][] = $b;
         }
 
+
+        $getTypeLabel = function ($type) {
+            switch ((int) $type) {
+                case 0:
+                    return 'Nhà phân phối';
+                case 1:
+                    return 'Đại lý';
+                case 2:
+                    return 'CTV';
+                default:
+                    return 'Không xác định';
+            }
+        };
+
         // Hàm render hàng theo dạng cây (đệ quy)
         $stt = 0;
-        $renderRows = function ($parentId, $level) use (&$renderRows, &$childrenMap, &$stt) {
+        $renderRows = function ($parentId, $level) use (&$renderRows, &$childrenMap, &$stt, $getTypeLabel) {
             $html = '';
             $list = $childrenMap[$parentId] ?? [];
             foreach ($list as $item) {
@@ -97,52 +109,53 @@
                     '  <td class="tree-cell" style="--lv:' .
                     $lv .
                     '">
-                            <span class="tree-dot"></span>' .
+                                            <span class="tree-dot"></span>' .
                     $item['name'] .
                     '<div class="mt-1">' .
                     $misa .
                     '</div>
-                        </td>';
+                                        </td>';
                 $html .= '  <td>' . $item['address'] . '</td>';
+                $html .= '  <td>' . e($getTypeLabel($item['type'] ?? null)) . '</td>';
                 $html .= '  <td class="text-center">' . $badge . '</td>';
                 $html .=
                     '  <td class="text-center action-cell">
-    <div class="d-inline-flex align-items-center gap-1">
-        <a href="' .
+                    <div class="d-inline-flex align-items-center gap-1">
+                        <a href="' .
                     '#' .
                     '" class="btn btn-success btn-action" title="Xem Kho">
-            <i class="bx bx-show"></i>
-        </a>
-        <a href="' .
+                            <i class="bx bx-show"></i>
+                        </a>
+                        <a href="' .
                     route('branches.edit', $item['slug']) .
                     '" class="btn btn-warning btn-action" title="Sửa">
-            <i class="bx bx-edit"></i>
-        </a>
+                            <i class="bx bx-edit"></i>
+                        </a>
 
-        <form action="' .
+                        <form action="' .
                     route('branches.updateStatus', $item['id']) .
                     '" method="POST" class="m-0 p-0 d-inline-block">
-            ' .
+                            ' .
                     csrf_field() .
                     method_field('PUT') .
                     '
-            <input type="hidden" name="is_active" value="' .
+                            <input type="hidden" name="is_active" value="' .
                     ($item['is_active'] ? 0 : 1) .
                     '">
-            <button type="submit"
-                class="btn ' .
+                            <button type="submit"
+                                class="btn ' .
                     ($item['is_active'] ? 'btn-danger' : 'btn-success') .
                     ' btn-action"
-                title="' .
+                                title="' .
                     ($item['is_active'] ? 'Ngừng hoạt động' : 'Kích hoạt lại') .
                     '">
-                <i class="bx ' .
+                                <i class="bx ' .
                     ($item['is_active'] ? 'bx-trash' : 'bx-check') .
                     '"></i>
-            </button>
-        </form>
-    </div>
-</td>';
+                            </button>
+                        </form>
+                    </div>
+                </td>';
 
                 // render các con
                 $html .= $renderRows($item['id'], $level + 1);
@@ -222,6 +235,7 @@
                                 <th class="text-center" style="width:70px">STT</th>
                                 <th class="text-center">Tên chi nhánh</th>
                                 <th class="text-center">Địa chỉ</th>
+                                <th class="text-center">Vai trò</th>
                                 <th class="text-center" style="width:120px">Trạng thái</th>
                                 <th class="text-center">Thao tác</th>
                             </tr>
@@ -244,8 +258,7 @@
                                                     request('is_active', '') !== '';
                                             @endphp
                                             @if ($hasFilter)
-                                                <a href="{{ url()->current() }}"
-                                                    class="btn btn-outline-secondary btn-sm mt-2">
+                                                <a href="{{ url()->current() }}" class="btn btn-outline-secondary btn-sm mt-2">
                                                     Xóa bộ lọc
                                                 </a>
                                             @endif
