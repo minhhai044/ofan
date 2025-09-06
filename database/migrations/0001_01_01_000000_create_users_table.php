@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->string('slug')->unique();
             $table->string('address');
+            $table->tinyInteger('type')->default(0)->comment('0 : NPP , 1 : Đại lý , 2 : CTV');
             $table->string('code_misa')->nullable(); // name + phone để auto-gen
             $table->boolean('is_active')->default(1); // 0: Ngừng, 1: Hoạt động
             $table->timestamps();
