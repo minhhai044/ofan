@@ -17,12 +17,6 @@ class CheckAdmin
     public function handle(Request $request, Closure $next)
     {
 
-        if (Auth::user()->role === 1 && Auth::user()->branch_id !== null) {
-            return $next($request);
-        }
-
-        Auth::logout();
-
-        return back()->with('warning', 'Bạn không có quyền truy cập trang này !');
+        return $next($request);
     }
 }

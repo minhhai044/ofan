@@ -65,9 +65,6 @@ class UserService
         if (!empty($data['bank_qr'])) {
             $data['bank_qr'] = createImageStorage('QrBanks', $data['bank_qr']);
         }
-        if (!empty($data['branch_id'])) {
-            $data['role'] = 1;
-        }
         $data['slug'] = generateSlug($data['name']);
         return User::query()->create($data);
     }
@@ -99,13 +96,6 @@ class UserService
             $data['bank_qr'] = createImageStorage('QrBanks', $data['bank_qr']);
         }
 
-        if (array_key_exists('branch_id', $data)) {
-            if (!empty($data['branch_id'])) {
-                $data['role'] = 1;
-            } elseif (is_null($data['branch_id'])) {
-                $data['role'] = 0;
-            }
-        }
         if (empty($data['password'])) {
             unset($data['password']);
         }

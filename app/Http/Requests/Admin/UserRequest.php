@@ -70,7 +70,7 @@ class UserRequest extends FormRequest
     public function rulesForCreate(): array
     {
         return [
-            'branch_id'    => ['nullable', 'integer', 'exists:branches,id'],
+            'branch_id'    => ['required', 'integer', 'exists:branches,id'],
             'name'         => ['required', 'string', 'min:3', 'max:255'],
             'phone'        => ['required', 'string', 'regex:/^[0-9+\-\s]{10,10}$/', Rule::unique('users', 'phone')],
             'email'        => ['nullable', 'email', 'max:255', Rule::unique('users', 'email')],
@@ -95,7 +95,7 @@ class UserRequest extends FormRequest
         $id = $this->route('users');
 
         return [
-            'branch_id'    => ['nullable', 'integer', 'exists:branches,id'],
+            'branch_id'    => ['required', 'integer', 'exists:branches,id'],
             'name'         => ['required', 'string', 'min:3', 'max:255'],
             'phone'        => ['required', 'string', 'regex:/^[0-9+\-\s]{10,10}$/', Rule::unique('users', 'phone')->ignore($id)],
             'email'        => ['nullable', 'email', 'max:255', Rule::unique('users', 'email')->ignore($id)],

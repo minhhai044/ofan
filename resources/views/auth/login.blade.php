@@ -120,11 +120,11 @@
                                             nhập</button>
                                     </div>
 
-                                    <div class="mt-4 text-center">
+                                    {{-- <div class="mt-4 text-center">
                                         <a href="{{ route('form_register') }}">
                                             <h5 class="font-size-14 mb-3">Đăng ký ngay</h5>
                                         </a>
-                                    </div>
+                                    </div> --}}
 
                                     <div class="mt-2 text-center">
                                         <a href="" class="text-muted">

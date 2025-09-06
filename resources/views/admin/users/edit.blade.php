@@ -86,8 +86,8 @@
                             <div class="col-md-6">
                                 <label class="form-label fw-bold">Thuộc chi nhánh</label>
                                 <select name="branch_id" id="branch_id"
-                                    class="form-select select2 @error('branch_id') is-invalid @enderror" >
-                                    <option value="">Không thuộc chi nhánh</option>
+                                    class="form-select select2 @error('branch_id') is-invalid @enderror" required>
+                                  
                                     @foreach ($branches ?? [] as $b)
                                         <option value="{{ $b->id }}" @selected(old('branch_id', $user->branch_id) == $b->id)>
                                             {{ $b->name }}

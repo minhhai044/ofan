@@ -18,8 +18,8 @@ Route::controller(HomeController::class)->middleware(['check_login', 'admin'])->
 Route::controller(AuthController::class)
     ->group(function () {
         Route::get('/form_login', 'form_login')->name('form_login');
-        Route::get('/form_register', 'form_register')->name('form_register');
-        Route::post('/register', 'register')->name('register');
+        // Route::get('/form_register', 'form_register')->name('form_register');
+        // Route::post('/register', 'register')->name('register');
         Route::post('/login', 'login')->name('login');
         Route::post('/logout', 'logout')->name('logout');
     });
@@ -44,7 +44,6 @@ Route::controller(UserController::class)
     ->middleware(['check_login', 'admin'])
     ->group(function () {
         Route::get('/', 'index')->name('index');
-        Route::get('/staff', 'indexStaff')->name('indexStaff');
         Route::get('/create', 'create')->name('create');
         Route::post('/', 'store')->name('store');
         Route::get('{users}/', 'edit')->name('edit');

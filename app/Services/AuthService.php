@@ -8,14 +8,14 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthService
 {
-    public function register(array $data)
-    {
-        $data['code_misa'] = codeMisa($data['name'], $data['phone']);
-        $data['slug'] = generateSlug($data['name']);
-        $user = User::create($data);
-        Auth::login($user);
-        return $user;
-    }
+    // public function register(array $data)
+    // {
+    //     $data['code_misa'] = codeMisa($data['name'], $data['phone']);
+    //     $data['slug'] = generateSlug($data['name']);
+    //     $user = User::create($data);
+    //     Auth::login($user);
+    //     return $user;
+    // }
 
     // public function login(array $data)
     // {

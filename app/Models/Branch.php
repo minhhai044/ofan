@@ -12,6 +12,7 @@ class Branch extends Model
         'code_misa',
         'is_active',
         'branch_id',
-        'slug'
+        'slug',
+        'type'
     ];
 }

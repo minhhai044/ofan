@@ -26,7 +26,7 @@ return new class extends Migration
 
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Branch::class)->nullable()->constrained();
+            $table->foreignIdFor(Branch::class)->constrained();
             $table->string('name');
             $table->string('phone')->unique();
             $table->string('slug')->unique();
@@ -36,7 +36,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('code_misa'); // name + phone để auto-gen
             $table->boolean('gender')->default(0); // 0: Nam, 1: Nữ
-            $table->integer('role')->default(0);   // 0: Member, 1: Admin
+            // $table->integer('role')->default(0);   // 0: Member, 1: Admin
             $table->tinyInteger('is_active')->default(1); // 0: Ngừng, 1: Hoạt động
             $table->string('fcm_token')->nullable();
             $table->string('bank_info')->nullable();

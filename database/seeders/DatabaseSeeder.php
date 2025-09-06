@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             'address' => 'Kiến Hưng - Hà Đông - Hà Nội',
             'code_misa' => 'NANOGEYSER',
             'is_active' => 1,
+            'type' => 0,
             'slug' => generateSlug('Nano Geyser')
         ]);
         Branch::create([
@@ -33,7 +34,16 @@ class DatabaseSeeder extends Seeder
             'code_misa' => 'OFAN',
             'is_active' => 1,
             'branch_id' => 1,
+            'type' => 1,
             'slug' => generateSlug('Ofan')
+        ]);
+        User::query()->create([
+            'name' => 'System Admin',
+            'phone' => '0338997846',
+            'password' => '0338997846',
+            'branch_id' => 1,
+            'slug' => generateSlug('System Admin'),
+            'code_misa' => codeMisa('System Admin', '0338997846')
         ]);
         ProductCategory::query()->create([
             'name' => 'Lõi lọc nước',

@@ -21,21 +21,21 @@ class AuthController extends Controller
     {
         return view('auth.login');
     }
-    public function form_register()
-    {
-        return view('auth.register');
-    }
+    // public function form_register()
+    // {
+    //     return view('auth.register');
+    // }
 
-    public function register(RegisterRequest $request)
-    {
-        try {
-            $this->AuthService->register($request->validated());
-            return redirect()->route('home')->with('success', 'Thao tác thành công !!!');
-        } catch (\Throwable $th) {
-            Log::error('Lỗi đăng ký: ' . $th->getMessage());
-            return redirect()->back()->with('error', 'Đăng ký không thành công');
-        }
-    }
+    // public function register(RegisterRequest $request)
+    // {
+    //     try {
+    //         $this->AuthService->register($request->validated());
+    //         return redirect()->route('home')->with('success', 'Thao tác thành công !!!');
+    //     } catch (\Throwable $th) {
+    //         Log::error('Lỗi đăng ký: ' . $th->getMessage());
+    //         return redirect()->back()->with('error', 'Đăng ký không thành công');
+    //     }
+    // }
     public function login(LoginRequest $request)
     {
         // try {

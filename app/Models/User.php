@@ -29,7 +29,6 @@ class User extends Authenticatable
         'password',
         'code_misa',
         'gender',
-        'role',
         'is_active',
         'fcm_token',
         'bank_info',
